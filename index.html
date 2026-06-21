@@ -764,7 +764,7 @@ function iniciarBoss(){
   $('bossbar-wrap').style.display=''; renderVidas();
   mostrar('tela-jogo'); somRugido(); renderPergunta();
 }
-function renderVidas(){ $('jogo-vidas').innerHTML = '❤️'.repeat(jogo.vidas)+'🤍'.repeat(3-jogo.vidas); }
+function renderVidas(){ $('pill-vidas').innerHTML = '❤️'.repeat(jogo.vidas)+'🤍'.repeat(3-jogo.vidas); }
 
 /* ---------- render pergunta ---------- */
 function tipoAtual(it){ return jogo.boss ? it.tipo : jogo.tipo; }
