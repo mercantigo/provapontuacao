@@ -5,6 +5,15 @@ mesmo diretorio. O arquivo `vercel.json` deixa a publicacao pronta para abrir em
 
 `https://renatazavodini.com.br/provapontuacao/`
 
+## Publicar depois de editar
+
+Para publicar mudancas futuras, de dois cliques em:
+
+`PUBLICAR_SITE.bat`
+
+Ele valida o `exercicios.json`, cria um commit automatico, envia para o GitHub e
+o Vercel publica a nova versao automaticamente.
+
 ## 1. Subir para o GitHub
 
 Se ainda nao existir repositorio no GitHub:
