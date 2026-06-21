@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🦉 Aventura das Palavras — Pingo, a Coruja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul:#3a86ff; --roxo:#8338ec; --rosa:#ff6ad5; --verde:#06d6a0;
+    --amarelo:#ffd60a; --laranja:#ff7b00; --vermelho:#ef476f;
+    --escuro:#241b4d; --claro:#fff;
+    --sombra:0 10px 30px rgba(36,27,77,.25);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; margin:0; padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Baloo 2','Fredoka',system-ui,Segoe UI,sans-serif;
+    background:linear-gradient(160deg,#7b2ff7,#3a86ff 45%,#06d6a0);
+    color:var(--escuro); min-height:100%;
+    display:flex; align-items:center; justify-content:center;
+    overflow-x:hidden; padding:14px;
+  }
+  .ceu{position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none}
+  .nuvem{position:absolute; font-size:48px; opacity:.5; animation:flutua linear infinite}
+  @keyframes flutua{from{transform:translateX(-120px)} to{transform:translateX(110vw)}}
+
+  .app{position:relative; z-index:1; width:100%; max-width:780px}
+  .card{
+    background:rgba(255,255,255,.96); border-radius:30px; padding:26px;
+    box-shadow:var(--sombra); border:4px solid #fff;
+  }
+  .tela{display:none; animation:entra .35s ease}
+  .tela.ativa{display:block}
+  @keyframes entra{from{opacity:0; transform:translateY(18px) scale(.98)} to{opacity:1; transform:none}}
+
+  h1{font-size:clamp(26px,7vw,42px); text-align:center; color:var(--roxo); line-height:1.05}
+  h2{font-size:clamp(22px,5vw,30px); text-align:center; color:var(--roxo); margin-bottom:6px}
+  .sub{text-align:center; color:#6a6a8a; font-weight:600; margin-bottom:14px; font-size:16px}
+
+  .hud{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:14px; flex-wrap:wrap}
+  .placar{display:flex; gap:8px; flex-wrap:wrap}
+  .pill{background:#fff; border:3px solid #ffe28a; border-radius:999px; padding:6px 14px; font-weight:800; font-size:18px; box-shadow:var(--sombra); display:flex; align-items:center; gap:6px}
+  .pill.estrela{border-color:#ffd60a}
+  .pill.ponto{border-color:#06d6a0}
+  .progresso{height:16px; background:#eee; border-radius:999px; overflow:hidden; margin:10px 0 4px; border:2px solid #fff}
+  .progresso > i{display:block; height:100%; width:0; background:linear-gradient(90deg,#ffd60a,#ff7b00); transition:width .4s ease}
+
+  .mascote{font-size:clamp(70px,20vw,120px); text-align:center; line-height:1; filter:drop-shadow(0 8px 10px rgba(0,0,0,.2)); animation:pula 2.4s ease-in-out infinite}
+  @keyframes pula{0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-14px) rotate(2deg)}}
+  .balao{background:#fff; border:4px solid #ffd60a; border-radius:22px; padding:12px 16px; font-weight:700; font-size:18px; text-align:center; position:relative; margin:10px auto 0; max-width:540px}
+  .balao:after{content:''; position:absolute; top:-16px; left:50%; transform:translateX(-50%); border:10px solid transparent; border-bottom-color:#ffd60a}
+
+  .btn{
+    font-family:inherit; cursor:pointer; border:none; border-radius:18px; padding:16px 22px;
+    font-size:20px; font-weight:800; color:#fff; background:var(--roxo);
+    box-shadow:0 6px 0 rgba(0,0,0,.18), var(--sombra); transition:transform .08s, box-shadow .08s;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%;
+  }
+  .btn:active{transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,.18)}
+  .btn:disabled{opacity:.45; cursor:default}
+  .btn.grande{font-size:24px; padding:20px}
+  .btn.verde{background:var(--verde)} .btn.azul{background:var(--azul)}
+  .btn.laranja{background:var(--laranja)} .btn.rosa{background:var(--rosa)}
+  .btn.amarelo{background:var(--amarelo); color:#5a3d00}
+  .btn.fantasma{background:#fff; color:var(--roxo); border:3px solid #e7defc; box-shadow:var(--sombra)}
+  .linha-btn{display:flex; gap:12px; margin-top:14px; flex-wrap:wrap}
+  .linha-btn .btn{width:auto; flex:1; min-width:140px}
+
+  .mundos{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px}
+  @media(max-width:520px){.mundos{grid-template-columns:1fr}}
+  .mundo{position:relative; border-radius:24px; padding:18px; color:#fff; cursor:pointer; box-shadow:var(--sombra); border:4px solid rgba(255,255,255,.6); transition:transform .12s; overflow:hidden}
+  .mundo:active{transform:scale(.97)}
+  .mundo .ico{font-size:54px; line-height:1}
+  .mundo h3{font-size:21px; margin:6px 0 2px}
+  .mundo p{font-size:14px; opacity:.95; font-weight:600; min-height:36px}
+  .mundo .estrelinhas{font-size:18px; margin-top:6px; letter-spacing:1px}
+  .mundo.bloqueado{filter:grayscale(.7) brightness(.9); cursor:not-allowed}
+  .mundo.bloqueado:after{content:'🔒'; position:absolute; top:12px; right:14px; font-size:30px}
+  .m1{background:linear-gradient(150deg,#06d6a0,#118a6e)}
+  .m2{background:linear-gradient(150deg,#8338ec,#5a1ea8)}
+  .m3{background:linear-gradient(150deg,#3a86ff,#1e5fd6)}
+  .m4{background:linear-gradient(150deg,#ff7b00,#d65a00)}
+
+  .boss-card{margin-top:16px; border-radius:26px; padding:20px; color:#fff; cursor:pointer; box-shadow:var(--sombra); border:4px solid #ffd60a; background:linear-gradient(150deg,#ef476f,#8338ec); display:flex; align-items:center; gap:16px; position:relative; overflow:hidden}
+  .boss-card:active{transform:scale(.98)}
+  .boss-card .dragao{font-size:60px; animation:pula 2s ease-in-out infinite}
+  .boss-card h3{font-size:24px} .boss-card p{font-size:14px; font-weight:600; opacity:.95}
+  .boss-card.bloqueado{filter:grayscale(.6) brightness(.92); cursor:not-allowed}
+  .boss-card.bloqueado:after{content:'🔒'; position:absolute; top:12px; right:16px; font-size:32px}
+
+  .niveis-grid{display:grid; gap:14px; margin-top:10px}
+  .nivel{position:relative; border-radius:22px; padding:18px 20px; cursor:pointer; box-shadow:var(--sombra); border:4px solid #fff; display:flex; align-items:center; gap:16px; color:#fff; transition:transform .1s}
+  .nivel:active{transform:scale(.98)}
+  .nivel .grau{font-size:42px}
+  .nivel .info{flex:1}
+  .nivel h3{font-size:22px; margin:0}
+  .nivel .estrelinhas{font-size:20px; letter-spacing:2px}
+  .nivel.bloqueado{filter:grayscale(.7) brightness(.9); cursor:not-allowed}
+  .nivel.bloqueado:after{content:'🔒 conclua o anterior'; position:absolute; right:16px; bottom:10px; font-size:13px; font-weight:700; opacity:.9}
+  .nf{background:linear-gradient(120deg,#06d6a0,#0a9e78)}
+  .nm{background:linear-gradient(120deg,#ffb703,#ff7b00)}
+  .nd{background:linear-gradient(120deg,#ef476f,#b5174e)}
+
+  .palco{text-align:center; margin:6px 0 12px}
+  .emoji-grande{font-size:clamp(64px,20vw,120px); line-height:1; filter:drop-shadow(0 8px 8px rgba(0,0,0,.18))}
+  .pista-card{background:#eef6ff; border:3px solid #bcd9ff; border-radius:18px; padding:14px 16px; font-size:clamp(17px,4.4vw,22px); font-weight:700; color:#27508a; max-width:600px; margin:0 auto}
+  .pista-card b{color:var(--azul)}
+  .frase{font-size:clamp(20px,5vw,30px); font-weight:800; color:var(--escuro); margin-top:8px; line-height:1.3}
+  .lacuna{color:var(--laranja); border-bottom:5px dotted var(--laranja); padding:0 8px}
+
+  .opcoes{display:grid; gap:12px; grid-template-columns:1fr}
+  .opcoes.duplo{grid-template-columns:1fr 1fr}
+  .op{
+    font-family:inherit; cursor:pointer; border:4px solid #e7defc; background:#fff; color:var(--escuro);
+    border-radius:18px; padding:18px; font-size:25px; font-weight:800; box-shadow:var(--sombra);
+    transition:transform .08s, border-color .15s, background .15s, opacity .2s;
+  }
+  .op:active{transform:scale(.97)}
+  .op.certo{background:#d8fff1; border-color:var(--verde); animation:tada .5s}
+  .op.errado{background:#ffe0e8; border-color:var(--vermelho); animation:tremer .4s}
+  .op.revela{border-color:var(--verde); background:#eafff7}
+  .op.eliminada{opacity:.3; text-decoration:line-through; pointer-events:none}
+  @keyframes tada{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+  @keyframes tremer{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+  .texto-ponto{font-size:clamp(20px,5vw,28px); font-weight:700; line-height:2.3; text-align:center; margin:8px 0}
+  .token{display:inline-block; white-space:nowrap}
+  .palavra{display:inline}
+  .slot{display:inline-flex; align-items:center; justify-content:center; width:22px; min-height:1.5em; margin:0 1px; vertical-align:middle; border-radius:8px; cursor:pointer; transition:background .15s; border:2px dashed #e2dcf5}
+  .slot:hover{background:#fff1c2}
+  .slot .pt{width:11px; height:11px; border-radius:50%; background:var(--vermelho)}
+  .slot.ok{background:#d8fff1; border-color:var(--verde)}
+  .slot.faltou{background:#fff7d6; border-color:#ffd60a; animation:pisca 1s infinite}
+  .slot.sobrou{background:#ffe0e8; border-color:var(--vermelho)}
+  @keyframes pisca{50%{opacity:.4}}
+  .instrucao{font-size:14px; font-weight:700; color:#8a7aa8; text-align:center; margin-bottom:6px}
+
+  .dicas-box{margin:8px 0 0}
+  .dica{background:#fff7d6; border:3px dashed #ffd60a; border-radius:16px; padding:10px 14px; font-weight:700; color:#7a5a00; margin-top:8px; font-size:15px; animation:entra .25s ease}
+
+  .feedback{text-align:center; font-size:21px; font-weight:800; min-height:28px; margin-top:12px}
+  .feedback.bom{color:var(--verde)}
+  .feedback.ruim{color:var(--vermelho)}
+
+  .estrelao{font-size:60px; text-align:center; letter-spacing:6px; margin:6px 0}
+  .star-pop{display:inline-block; animation:starpop .5s ease both}
+  @keyframes starpop{from{transform:scale(0) rotate(-40deg); opacity:0} to{transform:scale(1)}}
+  .medalha-grid{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:12px 0}
+  .med{font-size:40px; filter:grayscale(1) opacity(.4); text-align:center}
+  .med.ganha{filter:none; animation:pula 1.6s ease-in-out infinite}
+  .med small{display:block; font-size:11px; font-weight:700; color:#6a6a8a; filter:none}
+
+  .topo-mini{display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap}
+  .voltar{background:#fff; border:3px solid #e7defc; color:var(--roxo); border-radius:14px; padding:8px 14px; font-weight:800; font-size:16px; cursor:pointer; font-family:inherit}
+  .titulo-mundo{font-weight:800; color:var(--roxo); font-size:18px; flex:1; min-width:120px}
+
+  .som-toggle{position:fixed; top:14px; right:14px; z-index:5; background:#fff; border:3px solid #ffd60a; border-radius:999px; width:50px; height:50px; font-size:24px; cursor:pointer; box-shadow:var(--sombra)}
+
+  .confete{position:fixed; top:-20px; width:12px; height:18px; z-index:50; border-radius:3px; animation:cai linear forwards}
+  @keyframes cai{to{transform:translateY(105vh) rotate(720deg)}}
+
+  .creditos{text-align:center; color:#fff; opacity:.9; font-weight:600; margin-top:14px; font-size:14px; text-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .lista-temas{text-align:left; background:#f5f1ff; border-radius:16px; padding:14px 16px 14px 34px; margin-top:10px; font-size:15px; font-weight:600; color:#4a3a7a}
+  .lista-temas li{margin:4px 0}
+  .bossbar{height:22px; background:#3a2a5a; border-radius:999px; overflow:hidden; border:3px solid #fff; margin:4px 0 2px}
+  .bossbar > i{display:block; height:100%; width:100%; background:linear-gradient(90deg,#ef476f,#ff7b00); transition:width .4s}
+
+  .m5{background:linear-gradient(150deg,#ff6ad5,#b5179e)}
+  /* mundo do ditado (voz) */
+  .audio-row{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:4px 0 12px}
+  .audio-btn{font-family:inherit; font-weight:800; font-size:18px; border-radius:14px; border:none; padding:12px 16px; cursor:pointer; color:#fff; background:var(--azul); box-shadow:var(--sombra)}
+  .audio-btn:active{transform:scale(.96)}
+  .audio-btn.principal{font-size:22px; background:var(--verde)}
+  .entrada{width:100%; font-family:inherit; font-size:30px; font-weight:800; text-align:center; padding:14px; border-radius:16px; border:4px solid #bcd9ff; color:var(--escuro); outline:none; box-shadow:var(--sombra)}
+  .entrada:focus{border-color:var(--azul)}
+  .entrada:disabled{background:#f6f6fb}
+  .acentos{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:10px}
+  .acento{font-family:inherit; font-size:22px; font-weight:800; min-width:46px; height:46px; border-radius:12px; border:3px solid #e7defc; background:#fff; cursor:pointer; box-shadow:var(--sombra); color:var(--roxo)}
+  .acento:active{transform:scale(.95)}
+
+  .m6{background:linear-gradient(150deg,#00bbf9,#0077b6)}
+  /* separar sílabas */
+  .silaba-wrap{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; margin:14px 0; font-size:clamp(26px,7.5vw,42px); font-weight:800}
+  .letra{display:inline-flex; align-items:center; justify-content:center; min-width:.55em; padding:8px 1px; color:var(--escuro)}
+  .corte{display:inline-flex; align-items:center; justify-content:center; width:20px; min-height:50px; cursor:pointer; border-radius:8px; transition:background .15s}
+  .corte:hover{background:#fff1c2}
+  .corte:before{content:''; width:4px; height:14px; background:#d6cff0; border-radius:3px; transition:height .12s, background .12s}
+  .corte.ativo:before{height:36px; background:var(--roxo)}
+  .corte.ok{background:#d8fff1} .corte.ok:before{height:36px; background:var(--verde)}
+  .corte.faltou{background:#fff7d6} .corte.faltou:before{height:36px; background:#e0a400}
+  .corte.sobrou{background:#ffe0e8} .corte.sobrou:before{height:36px; background:var(--vermelho)}
+</style>
+</head>
+<body>
+<div class="ceu" id="ceu"></div>
+<button class="som-toggle" id="somBtn" title="Ligar/desligar som">🔊</button>
+
+<div class="app">
+
+  <!-- ===================== TELA INICIAL ===================== -->
+  <section class="tela ativa" id="tela-home">
+    <div class="card">
+      <div class="mascote">🦉</div>
+      <h1>Aventura das Palavras</h1>
+      <p class="sub">Estude português com o <b>Pingo, a Coruja</b>! 🌟</p>
+      <div class="balao">Cada mundo tem 3 níveis: 🟢 Fácil, 🟡 Médio e 🔴 Difícil. Travou? Peça uma 💡 dica (até 3 por questão)! No fim, encare o 🐉 Chefão!</div>
+
+      <ul class="lista-temas">
+        <li>🌳 <b>Mundo do Til</b> — palavras com ã, õ (nasais)</li>
+        <li>🏰 <b>Castelo M ou N</b> — antes de P e B é sempre M!</li>
+        <li>🏖️ <b>Praia ÃO ou AM</b> — passado (AM) ou futuro (ÃO)?</li>
+        <li>🚉 <b>Estação do Ponto</b> — onde fica o ponto final?</li>
+        <li>🎧 <b>Ditado do Pingo</b> — ouça e escreva a palavra!</li>
+        <li>✂️ <b>Separar Sílabas</b> — divida a palavra em pedacinhos!</li>
+        <li>🐉 <b>Chefão Final</b> — tudo misturado, com 3 vidas!</li>
+      </ul>
+
+      <div class="linha-btn">
+        <button class="btn grande verde" onclick="irMapa()">▶️ JOGAR</button>
+      </div>
+      <div class="linha-btn">
+        <button class="btn fantasma" onclick="window.open('https://www.youtube.com/watch?v=LR_of5YOVTQ','_blank')">🎬 Ver a aula em vídeo</button>
+        <button class="btn fantasma" onclick="zerarTudo()">🔄 Recomeçar</button>
+      </div>
+    </div>
+    <p class="creditos">Feito com 💜 para você estudar e arrasar na prova!</p>
+  </section>
+
+  <!-- ===================== MAPA ===================== -->
+  <section class="tela" id="tela-mapa">
+    <div class="card">
+      <div class="hud">
+        <button class="voltar" onclick="mostrar('tela-home')">⬅️ Início</button>
+        <div class="placar">
+          <span class="pill estrela">⭐ <span id="mapa-estrelas">0</span></span>
+          <span class="pill ponto">💎 <span id="mapa-pontos">0</span></span>
+        </div>
+      </div>
+      <h2>Escolha um Mundo</h2>
+      <p class="sub">Cada mundo tem 3 níveis. Conclua para abrir o próximo! 🚀</p>
+      <div class="mundos" id="grade-mundos"></div>
+
+      <div class="boss-card" id="card-boss" onclick="tentarBoss()">
+        <div class="dragao">🐉</div>
+        <div>
+          <h3>Chefão Final</h3>
+          <p id="boss-status">Tudo misturado e bem difícil. Você tem 3 vidas!</p>
+          <div class="estrelinhas" id="boss-estrelas" style="font-size:20px"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <p class="sub" style="margin:0 0 6px">Suas medalhas:</p>
+        <div class="medalha-grid" id="vitrine-medalhas">
+          <span class="med" data-m="0">🥇<small>Fácil</small></span>
+          <span class="med" data-m="1">🏆<small>Médio</small></span>
+          <span class="med" data-m="2">🎖️<small>Difícil</small></span>
+          <span class="med" data-m="3">👑<small>Chefão</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NÍVEIS ===================== -->
+  <section class="tela" id="tela-niveis">
+    <div class="card">
+      <div class="topo-mini">
+        <button class="voltar" onclick="irMapa()">⬅️ Mapa</button>
+        <span class="titulo-mundo" id="niveis-titulo">Mundo</span>
+      </div>
+      <p class="sub" id="niveis-desc">Escolha a dificuldade</p>
+      <div class="niveis-grid" id="grade-niveis"></div>
+    </div>
+  </section>
+
+  <!-- ===================== JOGO ===================== -->
+  <section class="tela" id="tela-jogo">
+    <div class="card">
+      <div class="topo-mini">
+        <button class="voltar" onclick="confirmarSair()">⬅️</button>
+        <span class="titulo-mundo" id="jogo-titulo">Mundo</span>
+        <span class="pill estrela" id="pill-acertos">⭐ <span id="jogo-acertos">0</span></span>
+        <span class="pill" id="pill-vidas" style="display:none;border-color:#ef476f"></span>
+      </div>
+      <div class="bossbar" id="bossbar-wrap" style="display:none"><i id="bossbar"></i></div>
+      <div class="progresso"><i id="barra"></i></div>
+      <p class="sub" id="jogo-passo" style="margin:4px 0 0">Pergunta 1</p>
+
+      <div class="palco" id="palco"></div>
+      <div id="area-resposta"></div>
+      <div class="dicas-box" id="dicas-box"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="linha-btn" id="rodape-jogo"></div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULTADO ===================== -->
+  <section class="tela" id="tela-fim">
+    <div class="card" style="text-align:center">
+      <div class="mascote" id="fim-mascote">🦉</div>
+      <h2 id="fim-titulo">Muito bem!</h2>
+      <div class="estrelao" id="fim-estrelas">⭐</div>
+      <p class="sub" id="fim-msg">Você acertou tudo!</p>
+      <div class="placar" style="justify-content:center; margin-bottom:8px">
+        <span class="pill estrela">Acertos: <span id="fim-acertos">0</span></span>
+        <span class="pill ponto">💎 +<span id="fim-pontos">0</span></span>
+      </div>
+      <div class="linha-btn">
+        <button class="btn verde" id="btn-denovo">🔁 Jogar de novo</button>
+        <button class="btn azul" onclick="irMapa()">🗺️ Mapa</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* =========================================================
+   AVENTURA DAS PALAVRAS — jogo de português
+   4 mundos x 3 níveis + Chefão. Dicas sob demanda (até 3/questão).
+   Resposta imediata, sem confirmar, com avanço automático.
+   ========================================================= */
+
+const $ = id => document.getElementById(id);
+const embaralhar = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+
+/* ---------- som ---------- */
+let somLigado = true, actx = null;
+function ac(){ if(!actx){ try{ actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return actx; }
+function tom(freq, t0, dur, tipo='sine', vol=.2){
+  const c = ac(); if(!c||!somLigado) return;
+  const o=c.createOscillator(), g=c.createGain();
+  o.type=tipo; o.frequency.value=freq; o.connect(g); g.connect(c.destination);
+  const t=c.currentTime+t0;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.02);
+  g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.start(t); o.stop(t+dur);
+}
+const somCerto = ()=>{ tom(523,0,.12,'triangle'); tom(659,.1,.12,'triangle'); tom(784,.2,.18,'triangle'); };
+const somErro  = ()=>{ tom(220,0,.18,'sawtooth',.15); tom(160,.12,.2,'sawtooth',.15); };
+const somClique= ()=>{ tom(600,0,.06,'square',.12); };
+const somVitoria=()=>{ [523,659,784,1047].forEach((f,i)=>tom(f,i*.13,.22,'triangle')); tom(1319,.5,.4,'triangle'); };
+const somRugido =()=>{ tom(110,0,.5,'sawtooth',.18); tom(90,.15,.5,'sawtooth',.16); };
+$('somBtn').onclick = ()=>{ somLigado=!somLigado; $('somBtn').textContent = somLigado?'🔊':'🔇'; if(somLigado){ac(); somClique();} };
+
+/* ---------- voz (síntese de fala para o Ditado) ---------- */
+const TEM_VOZ = ('speechSynthesis' in window);
+let vozPT = null;
+function carregarVozes(){ try{ const vs=speechSynthesis.getVoices(); vozPT = vs.find(v=>/pt[-_]?br/i.test(v.lang)) || vs.find(v=>/^pt/i.test(v.lang)) || null; }catch(e){} }
+if(TEM_VOZ){ carregarVozes(); try{ speechSynthesis.onvoiceschanged = carregarVozes; }catch(e){} }
+function falar(texto, taxa){
+  if(!TEM_VOZ || !somLigado) return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(texto);
+    u.lang='pt-BR'; if(vozPT) u.voice=vozPT; u.rate=taxa||.85; u.pitch=1.1;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function pararVoz(){ if(TEM_VOZ){ try{ speechSynthesis.cancel(); }catch(e){} } }
+
+/* ---------- nuvens ---------- */
+(function(){
+  const ceu=$('ceu'), itens=['☁️','⭐','🌈','🎈','✨'];
+  for(let i=0;i<9;i++){
+    const n=document.createElement('div'); n.className='nuvem';
+    n.textContent=itens[i%itens.length];
+    n.style.top=(Math.random()*90)+'%'; n.style.fontSize=(28+Math.random()*40)+'px';
+    n.style.animationDuration=(18+Math.random()*22)+'s'; n.style.animationDelay=(-Math.random()*25)+'s';
+    ceu.appendChild(n);
+  }
+})();
+
+/* ---------- confete ---------- */
+function confete(){
+  const cores=['#ffd60a','#06d6a0','#3a86ff','#ff6ad5','#ff7b00','#8338ec'];
+  for(let i=0;i<100;i++){
+    const c=document.createElement('div'); c.className='confete';
+    c.style.left=Math.random()*100+'vw'; c.style.background=cores[i%cores.length];
+    c.style.animationDuration=(2+Math.random()*2)+'s'; c.style.animationDelay=(Math.random()*.6)+'s';
+    c.style.transform='rotate('+(Math.random()*360)+'deg)';
+    document.body.appendChild(c); setTimeout(()=>c.remove(),4200);
+  }
+}
+
+/* ---------- salvar ---------- */
+const CHAVE='pingo_save_v2';
+let save = carregar();
+function carregar(){ try{ return Object.assign(base(), JSON.parse(localStorage.getItem(CHAVE))||{}); }catch(e){ return base(); } }
+function base(){ return { pontos:0, niveis:[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]], boss:0 }; }
+function normalizeSave(){
+  if(!Array.isArray(save.niveis)) save.niveis=[];
+  while(save.niveis.length < MUNDOS.length) save.niveis.push([0,0,0]);
+  save.niveis = save.niveis.slice(0, MUNDOS.length).map(w=>{ w=Array.isArray(w)?w:[0,0,0]; while(w.length<3) w.push(0); return w.slice(0,3); });
+  if(typeof save.pontos!=='number') save.pontos=0;
+  if(typeof save.boss!=='number') save.boss=0;
+}
+function gravar(){ try{ localStorage.setItem(CHAVE, JSON.stringify(save)); }catch(e){} }
+function zerarTudo(){
+  if(confirm('Quer apagar todo o progresso e começar do zero?')){
+    save = base(); gravar(); somClique(); atualizarMapa(); mostrar('tela-mapa');
+  }
+}
+
+/* =========================================================
+   DADOS — cada mundo tem 3 níveis
+   tipos: grafia | mn | aoam | ponto | voz | silaba
+
+   ⚠️ Estes dados abaixo são a CÓPIA DE RESERVA (de fábrica).
+   Para adicionar/trocar questões, edite o arquivo "exercicios.json"
+   (o jogo puxa esse arquivo automaticamente quando está num servidor
+   ou rodando pelo servidor.bat). Veja o LEIA-ME.md.
+   ========================================================= */
+let MUNDOS = [
+  /* ===== 0) MUNDO DO TIL — grafia (escolher escrita certa) ===== */
+  {
+    titulo:'🌳 Mundo do Til', tipo:'grafia', classe:'m1',
+    desc:'Escreva certo as palavras nasais (til ~).',
+    niveis:[
+      { nome:'Fácil', cor:'nf', grau:'🟢', itens:[
+        {emoji:'🍎', resp:'maçã',    ops:['maca','maçã','masã']},
+        {emoji:'🍞', resp:'pão',     ops:['pao','pão','pãu']},
+        {emoji:'✋', resp:'mão',     ops:['mão','mao','mãu']},
+        {emoji:'🐕', resp:'cão',     ops:['cão','cao','caum']},
+        {emoji:'🦁', resp:'leão',    ops:['leao','leão','lião']},
+        {emoji:'🎈', resp:'balão',   ops:['balao','balão','balãu']},
+        {emoji:'🍋', resp:'limão',   ops:['limao','limão','limãu']},
+        {emoji:'❤️', resp:'coração', ops:['coração','coraçao','corasão']},
+        {emoji:'🫘', resp:'feijão',  ops:['feijao','feijão','feijaum']},
+        {emoji:'🍈', resp:'melão',   ops:['melão','melao','melãu']},
+      ]},
+      { nome:'Médio', cor:'nm', grau:'🟡', itens:[
+        {emoji:'📺', resp:'televisão', ops:['televisao','televisão','televizão']},
+        {emoji:'🚉', resp:'estação',   ops:['estaçao','estação','estassão']},
+        {emoji:'🚚', resp:'caminhão',  ops:['caminhao','caminhão','caminhãu']},
+        {emoji:'🎓', resp:'educação',  ops:['educaçao','educação','edukação']},
+        {emoji:'🍽️', resp:'refeição', ops:['refeiçao','refeição','refeissão']},
+        {emoji:'💥', resp:'explosão',  ops:['explosao','explosão','esplosão']},
+        {emoji:'🎵', resp:'canção',    ops:['cançao','canção','cansão']},
+        {emoji:'🐉', resp:'dragão',    ops:['dragao','dragão','dragãu']},
+        {clue:'A sua irmã: a filha dos seus pais (menina).', resp:'irmã',    ops:['irma','irmã','irman']},
+        {clue:'Quem ganha em primeiro lugar é o...',          resp:'campeão', ops:['campeao','campeão','campião']},
+        {clue:'A parte do dia em que você acorda e vai à escola.', resp:'manhã', ops:['manha','manhã','manhan']},
+        {clue:'Uma pessoa que nasceu na Alemanha é um...',     resp:'alemão',  ops:['alemao','alemão','alemãun']},
+      ]},
+      { nome:'Difícil', cor:'nd', grau:'🔴', itens:[
+        {emoji:'🦁🦁', resp:'leões',   ops:['leoes','leões','leãos','liões']},
+        {emoji:'🎈🎈', resp:'balões',  ops:['baloes','balões','balãos','balõens']},
+        {emoji:'🍋🍋', resp:'limões',  ops:['limoes','limões','limãos','limõens']},
+        {emoji:'✈️✈️', resp:'aviões', ops:['avioes','aviões','aviãos','aviãoes']},
+        {emoji:'🍞🍞', resp:'pães',    ops:['paes','pães','pãens','pãis']},
+        {emoji:'🐕🐕', resp:'cães',    ops:['caes','cães','cãens','cãis']},
+        {emoji:'🤲', resp:'mãos',      ops:['maos','mãos','mãus','mões']},
+        {emoji:'💭', resp:'opinião',   ops:['opiniao','opinião','opnião','opineão']},
+        {emoji:'🍱', resp:'ração',     ops:['raçao','ração','rassão','rasão']},
+        {emoji:'📖', resp:'lição',     ops:['liçao','lição','lissão','lisão']},
+        {clue:'O dia depois de hoje.',                resp:'amanhã',  ops:['amanha','amanhã','amanham','amanhân']},
+        {clue:'Quando você está certo, dizemos que você tem...', resp:'razão', ops:['razao','razão','rasão','razam']},
+      ]},
+    ]
+  },
+
+  /* ===== 1) CASTELO M ou N ===== */
+  {
+    titulo:'🏰 Castelo M ou N', tipo:'mn', classe:'m2',
+    desc:'M antes de P e B; N antes das outras.',
+    niveis:[
+      { nome:'Fácil', cor:'nf', grau:'🟢', tipo:'mn', itens:[
+        {emoji:'🌾', exibe:'ca_po',  resp:'M', full:'campo'},
+        {emoji:'💣', exibe:'bo_ba',  resp:'M', full:'bomba'},
+        {emoji:'⏰', exibe:'te_po',  resp:'M', full:'tempo'},
+        {emoji:'🕊️', exibe:'po_ba', resp:'M', full:'pomba'},
+        {emoji:'💃', exibe:'sa_ba',  resp:'M', full:'samba'},
+        {emoji:'🎵', exibe:'ca_to',  resp:'N', full:'canto'},
+        {emoji:'🌉', exibe:'po_te',  resp:'N', full:'ponte'},
+        {emoji:'🦷', exibe:'de_te',  resp:'N', full:'dente'},
+        {emoji:'🍃', exibe:'ve_to',  resp:'N', full:'vento'},
+        {emoji:'🌍', exibe:'mu_do',  resp:'N', full:'mundo'},
+      ]},
+      { nome:'Médio', cor:'nm', grau:'🟡', tipo:'mn', itens:[
+        {emoji:'🛒', exibe:'co_pra',     resp:'M', full:'compra'},
+        {emoji:'⭐', exibe:'i_portante', resp:'M', full:'importante'},
+        {emoji:'🌧️', exibe:'te_pestade',resp:'M', full:'tempestade'},
+        {emoji:'🤝', exibe:'co_binar',   resp:'M', full:'combinar'},
+        {emoji:'🎁', exibe:'e_brulho',   resp:'M', full:'embrulho'},
+        {emoji:'🌡️', exibe:'te_peratura',resp:'M', full:'temperatura'},
+        {emoji:'💬', exibe:'co_versa',   resp:'N', full:'conversa'},
+        {emoji:'🧠', exibe:'i_teligente',resp:'N', full:'inteligente'},
+        {emoji:'🛋️', exibe:'co_fortável',resp:'N', full:'confortável'},
+        {emoji:'🏃', exibe:'co_seguir',  resp:'N', full:'conseguir'},
+      ]},
+      { nome:'Difícil', cor:'nd', grau:'🔴', tipo:'grafia', itens:[
+        {emoji:'🤾', resp:'também',  ops:['tanbém','também','tambén']},
+        {emoji:'🌳', resp:'jardim',  ops:['jardin','jardim','jardím']},
+        {emoji:'😖', resp:'ruim',    ops:['ruin','ruim','ruím']},
+        {emoji:'🍬', resp:'bombom',  ops:['bonbom','bombom','bonbon']},
+        {emoji:'🧑', resp:'homem',   ops:['homen','homem','hómem']},
+        {emoji:'☁️', resp:'nuvem',   ops:['nuven','nuvem','nuvém']},
+        {emoji:'📀', resp:'álbum',   ops:['álbun','álbum','álbumn']},
+        {emoji:'☂️', resp:'sombra',  ops:['sonbra','sombra','sombrá']},
+        {emoji:'🦨', resp:'gambá',   ops:['ganbá','gambá','gambã']},
+        {emoji:'🫧', resp:'embora',  ops:['enbora','embora','embóra']},
+      ]},
+    ]
+  },
+
+  /* ===== 2) PRAIA ÃO ou AM — passado(AM) x futuro(ÃO), palavras inteiras ===== */
+  {
+    titulo:'🏖️ Praia ÃO ou AM', tipo:'aoam', classe:'m3',
+    desc:'Passado escreve AM; futuro escreve ÃO.',
+    niveis:[
+      { nome:'Fácil', cor:'nf', grau:'🟢', itens:[
+        {emoji:'🛝', frase:'Ontem as crianças ___ no parque.', a:'brincaram', b:'brincarão', correta:'brincaram', tip:'ONTEM = já passou → escreve com AM.'},
+        {emoji:'🎤', frase:'Amanhã as meninas ___ no palco.',  a:'cantaram',  b:'cantarão',  correta:'cantarão',  tip:'AMANHÃ = vai acontecer → escreve com ÃO.'},
+        {emoji:'🦆', frase:'Ontem os patos ___ no lago.',      a:'nadaram',   b:'nadarão',   correta:'nadaram',   tip:'ONTEM = passado → AM.'},
+        {emoji:'⚽', frase:'Amanhã os times ___ a final.',     a:'jogaram',   b:'jogarão',   correta:'jogarão',   tip:'AMANHÃ = futuro → ÃO.'},
+        {emoji:'🍪', frase:'Ontem eles ___ todos os biscoitos.',a:'comeram',  b:'comerão',   correta:'comeram',   tip:'ONTEM = passado → AM.'},
+        {emoji:'🏃', frase:'Amanhã elas ___ na corrida.',      a:'correram',  b:'correrão',  correta:'correrão',  tip:'AMANHÃ = futuro → ÃO.'},
+        {emoji:'📚', frase:'Ontem as crianças ___ para a prova.',a:'estudaram',b:'estudarão',correta:'estudaram', tip:'ONTEM = passado → AM.'},
+        {emoji:'✈️', frase:'Amanhã meus tios ___ de avião.',   a:'viajaram',  b:'viajarão',  correta:'viajarão',  tip:'AMANHÃ = futuro → ÃO.'},
+        {emoji:'🗣️', frase:'Ontem os meninos ___ bem alto.',  a:'falaram',   b:'falarão',   correta:'falaram',   tip:'ONTEM = passado → AM.'},
+        {emoji:'🤸', frase:'Amanhã os atletas ___ bem alto.',  a:'pularam',   b:'pularão',   correta:'pularão',   tip:'AMANHÃ = futuro → ÃO.'},
+      ]},
+      { nome:'Médio', cor:'nm', grau:'🟡', itens:[
+        {emoji:'🎨', frase:'Na semana passada os artistas ___ o muro.', a:'pintaram',  b:'pintarão',  correta:'pintaram',  tip:'"passada" = já passou → AM.'},
+        {emoji:'🎁', frase:'No próximo ano eles ___ um prêmio.',         a:'ganharam',  b:'ganharão',  correta:'ganharão',  tip:'"próximo" = futuro → ÃO.'},
+        {emoji:'🧹', frase:'Mais cedo as tias ___ a sala.',              a:'limparam',  b:'limparão',  correta:'limparam',  tip:'Já aconteceu → AM.'},
+        {emoji:'🛒', frase:'Depois do almoço eles ___ pão.',             a:'compraram', b:'comprarão', correta:'comprarão', tip:'"depois" = futuro → ÃO.'},
+        {emoji:'🚪', frase:'Hoje de manhã elas ___ as janelas.',         a:'abriram',   b:'abrirão',   correta:'abriram',   tip:'Já passou (de manhã) → AM.'},
+        {emoji:'😴', frase:'Hoje à noite as crianças ___ cedo.',         a:'dormiram',  b:'dormirão',  correta:'dormirão',  tip:'Vai acontecer (à noite) → ÃO.'},
+        {emoji:'🎓', frase:'No mês passado os alunos ___ tudo.',         a:'aprenderam',b:'aprenderão',correta:'aprenderam',tip:'"passado" = passado → AM.'},
+        {emoji:'🚲', frase:'No domingo passado eles ___ de bike.',       a:'andaram',   b:'andarão',   correta:'andaram',   tip:'"passado" = passado → AM.'},
+        {emoji:'🏠', frase:'Daqui a pouco eles ___ para casa.',          a:'voltaram',  b:'voltarão',  correta:'voltarão',  tip:'"daqui a pouco" = futuro → ÃO.'},
+        {emoji:'✅', frase:'Na aula de ontem eles ___ a lição.',         a:'terminaram',b:'terminarão',correta:'terminaram',tip:'"ontem" = passado → AM.'},
+      ]},
+      { nome:'Difícil', cor:'nd', grau:'🔴', itens:[
+        {emoji:'⏩', frase:'Logo mais os alunos ___ o trabalho.',  a:'apresentaram', b:'apresentarão', correta:'apresentarão', tip:'"Logo mais" = futuro → ÃO.'},
+        {emoji:'⏪', frase:'Faz uma hora que eles ___ aqui.',       a:'chegaram',     b:'chegarão',     correta:'chegaram',     tip:'"Faz uma hora" = já passou → AM.'},
+        {emoji:'⏩', frase:'Na próxima semana elas ___ os livros.', a:'venderam',     b:'venderão',     correta:'venderão',     tip:'"próxima" = futuro → ÃO.'},
+        {emoji:'⏪', frase:'No ano passado eles ___ bastante.',     a:'sorriram',     b:'sorrirão',     correta:'sorriram',     tip:'"passado" = passado → AM.'},
+        {emoji:'⏩', frase:'Amanhã cedo os trens ___ da estação.',  a:'partiram',     b:'partirão',     correta:'partirão',     tip:'"Amanhã" = futuro → ÃO.'},
+        {emoji:'⏪', frase:'Ontem à tarde as crianças ___ suco.',   a:'beberam',      b:'beberão',      correta:'beberam',      tip:'"Ontem" = passado → AM.'},
+        {emoji:'⏩', frase:'Em breve os campeões ___ os prêmios.',  a:'receberam',    b:'receberão',    correta:'receberão',    tip:'"Em breve" = futuro → ÃO.'},
+        {emoji:'⏪', frase:'Há pouco eles ___ a porta.',            a:'abriram',      b:'abrirão',      correta:'abriram',      tip:'"Há pouco" = já passou → AM.'},
+        {emoji:'⏩', frase:'No próximo jogo eles ___ a vitória.',   a:'comemoraram',  b:'comemorarão',  correta:'comemorarão',  tip:'"próximo" = futuro → ÃO.'},
+        {emoji:'⏪', frase:'Na festa passada todos ___ muito.',     a:'dançaram',     b:'dançarão',     correta:'dançaram',     tip:'"passada" = passado → AM.'},
+      ]},
+    ]
+  },
+
+  /* ===== 3) ESTAÇÃO DO PONTO ===== */
+  {
+    titulo:'🚉 Estação do Ponto', tipo:'ponto', classe:'m4',
+    desc:'Coloque o ponto final no lugar certo.',
+    niveis:[
+      { nome:'Fácil', cor:'nf', grau:'🟢', itens:[
+        ['O gato subiu no telhado','Ele viu um passarinho'],
+        ['A Ana gosta de ler','Ela tem muitos livros'],
+        ['Hoje o dia está lindo','Vamos brincar lá fora'],
+        ['O Pedro comprou pão','Ele comeu de manhã'],
+        ['A bola rolou na rua','O João foi buscar'],
+        ['O sol apareceu cedo','Os pássaros cantaram'],
+      ]},
+      { nome:'Médio', cor:'nm', grau:'🟡', itens:[
+        ['O sol brilhou forte hoje','As crianças foram à praia','Todos voltaram felizes'],
+        ['Minha mãe fez um bolo','O cheiro tomou a casa','Eu comi dois pedaços'],
+        ['O cachorro latiu alto','O gato ficou assustado','Ele correu para o quintal'],
+        ['A professora chegou cedo','Ela escreveu no quadro','Os alunos copiaram tudo'],
+        ['Choveu a tarde inteira','As ruas ficaram molhadas','Depois surgiu um arco-íris'],
+        ['O time treinou bastante','O jogo começou animado','A vitória foi merecida'],
+      ]},
+      { nome:'Difícil', cor:'nd', grau:'🔴', itens:[
+        ['Quando acordei, o dia estava lindo','Tomei café e escovei os dentes','Peguei a mochila e fui à escola','Lá, encontrei meus amigos'],
+        ['O parque estava cheio de gente','Algumas crianças andavam de bicicleta','Outras brincavam na areia','Foi uma tarde divertida'],
+        ['Na floresta vivia uma coruja','Ela era sábia e gentil','Os bichos pediam conselhos','A coruja sempre ajudava'],
+        ['Comprei frutas na feira','Levei maçãs, peras e bananas','Em casa, lavei tudo','Guardei as frutas na geladeira'],
+        ['O time entrou em campo','A torcida gritava sem parar','No fim, o gol saiu','Foi uma festa enorme'],
+      ]},
+    ]
+  },
+
+  /* ===== 4) DITADO DO PINGO — voz: ouça e escreva ===== */
+  {
+    titulo:'🎧 Ditado do Pingo', tipo:'voz', classe:'m5',
+    desc:'Ouça e escreva a palavra certinha.',
+    niveis:[
+      { nome:'Fácil', cor:'nf', grau:'🟢', itens:[
+        {palavra:'pão',   frase:'Eu comi um pão de manhã.'},
+        {palavra:'mão',   frase:'Levante a mão direita.'},
+        {palavra:'irmã',  frase:'Minha irmã é muito legal.'},
+        {palavra:'maçã',  frase:'A maçã está bem madura.'},
+        {palavra:'campo', frase:'O cavalo corre no campo.'},
+        {palavra:'samba', frase:'Eles dançaram um samba.'},
+        {palavra:'bomba', frase:'A bomba fez muito barulho.'},
+        {palavra:'dente', frase:'O dente do bebê nasceu.'},
+        {palavra:'ponte', frase:'O carro passou na ponte.'},
+        {palavra:'vento', frase:'O vento balançou as folhas.'},
+      ]},
+      { nome:'Médio', cor:'nm', grau:'🟡', itens:[
+        {palavra:'coração',  frase:'O coração bate forte.'},
+        {palavra:'caminhão', frase:'O caminhão é bem grande.'},
+        {palavra:'também',   frase:'Eu também quero ir.'},
+        {palavra:'jardim',   frase:'As flores estão no jardim.'},
+        {palavra:'homem',    frase:'O homem é muito gentil.'},
+        {palavra:'tempo',    frase:'O tempo está nublado.'},
+        {palavra:'mundo',    frase:'O mundo é enorme.'},
+        {palavra:'planta',   frase:'A planta cresceu bastante.'},
+        {palavra:'manhã',    frase:'De manhã eu tomo café.'},
+        {palavra:'balão',    frase:'O balão subiu no céu.'},
+      ]},
+      { nome:'Difícil', cor:'nd', grau:'🔴', itens:[
+        {palavra:'opinião',    frase:'Cada um tem a sua opinião.'},
+        {palavra:'educação',   frase:'A educação é importante.'},
+        {palavra:'refeição',   frase:'O almoço é uma refeição.'},
+        {palavra:'álbum',      frase:'Colei figurinhas no álbum.'},
+        {palavra:'nuvem',      frase:'A nuvem é branca e fofa.'},
+        {palavra:'bombom',     frase:'Ganhei um bombom doce.'},
+        {palavra:'leões',      frase:'Os leões rugiram bem alto.'},
+        {palavra:'pães',       frase:'Comprei dois pães na padaria.'},
+        {palavra:'importante', frase:'Estudar é muito importante.'},
+        {palavra:'amanhã',     frase:'Amanhã eu vou à escola.'},
+      ]},
+    ]
+  },
+
+  /* ===== 5) SEPARAR SÍLABAS ===== */
+  {
+    titulo:'✂️ Separar Sílabas', tipo:'silaba', classe:'m6',
+    desc:'Toque entre as letras e separe as sílabas.',
+    niveis:[
+      { nome:'Fácil', cor:'nf', grau:'🟢', itens:[
+        {silabas:['lo','bo']},
+        {silabas:['ca','pa']},
+        {silabas:['bo','bo']},
+        {silabas:['vo','vó']},
+      ]},
+      { nome:'Médio', cor:'nm', grau:'🟡', itens:[
+        {silabas:['do','ces']},
+        {silabas:['ca','puz']},
+        {silabas:['bos','que']},
+        {silabas:['ca','mi','nho']},
+      ]},
+      { nome:'Difícil', cor:'nd', grau:'🔴', itens:[
+        {silabas:['es','tra','da']},
+        {silabas:['de','ser','to']},
+        {silabas:['con','ten','te']},
+        {silabas:['mar','ga','ri','das']},
+      ]},
+    ]
+  },
+];
+
+/* ===== CHEFÃO FINAL (reserva — edite no exercicios.json) ===== */
+let BOSS = [
+  {tipo:'grafia', emoji:'🦁🦁', resp:'leões',  ops:['leoes','leões','leãos','liões']},
+  {tipo:'mn', emoji:'🛒', exibe:'co_pra', resp:'M', full:'compra'},
+  {tipo:'aoam', emoji:'⏩', frase:'Amanhã eles ___ de avião.', a:'viajaram', b:'viajarão', correta:'viajarão', tip:'Amanhã = futuro → ÃO.'},
+  {tipo:'grafia', emoji:'💭', resp:'opinião', ops:['opiniao','opinião','opnião','opineão']},
+  {tipo:'ponto', frases:['A coruja Pingo é sábia','Ela ajuda quem estuda','Agora é a sua vez de brilhar']},
+  {tipo:'mn', emoji:'🧠', exibe:'i_teligente', resp:'N', full:'inteligente'},
+  {tipo:'aoam', emoji:'⏪', frase:'Ontem as crianças ___ para a prova.', a:'estudaram', b:'estudarão', correta:'estudaram', tip:'Ontem = passado → AM.'},
+  {tipo:'grafia', emoji:'🍞🍞', resp:'pães', ops:['paes','pães','pãens','pãis']},
+  {tipo:'mn', emoji:'🎁', exibe:'e_brulho', resp:'M', full:'embrulho'},
+  {tipo:'grafia', emoji:'🦁', resp:'leão', ops:['leao','leão','lião']},
+  {tipo:'grafia', emoji:'🌳', resp:'jardim', ops:['jardin','jardim','jardím']},
+  {tipo:'ponto', frases:['O dragão guardava um tesouro','Um herói corajoso apareceu','A batalha foi emocionante','Venceu quem mais estudou']},
+  {tipo:'aoam', emoji:'🎤', frase:'Na semana passada as meninas ___.', a:'cantaram', b:'cantarão', correta:'cantaram', tip:'"passada" = passado → AM.'},
+  {tipo:'grafia', emoji:'🤾', resp:'também', ops:['tanbém','também','tambén']},
+  {tipo:'voz', palavra:'coração', frase:'O coração bate forte.'},
+  {tipo:'silaba', silabas:['ca','mi','nho']},
+];
+
+/* ---------- estado ---------- */
+let jogo = null, proxTimer = null, avancou = false;
+/* configurações (reserva; o exercicios.json pode sobrescrever). 0 = usar todas */
+let CONFIG = { questoesPorMundo: 5, questoesChefao: 0 };
+
+/* quantas questões um nível deste mundo vai ter (sorteadas do banco daquele nível) */
+function nQuestoes(mundo, disponivel){
+  let n = (mundo && typeof mundo.questoes==='number') ? mundo.questoes
+        : (typeof CONFIG.questoesPorMundo==='number' ? CONFIG.questoesPorMundo : 0);
+  if(!n || n<=0 || n>disponivel) n = disponivel;
+  return n;
+}
+
+/* ---------- navegação ---------- */
+function mostrar(id){ document.querySelectorAll('.tela').forEach(t=>t.classList.remove('ativa')); $(id).classList.add('ativa'); window.scrollTo(0,0); }
+function irMapa(){ ac(); somClique(); clearTimeout(proxTimer); pararVoz(); atualizarMapa(); mostrar('tela-mapa'); }
+const somaMundo = i => save.niveis[i].reduce((a,b)=>a+b,0);
+const totalEstrelas = () => save.niveis.reduce((s,w)=>s+w.reduce((a,b)=>a+b,0),0) + save.boss;
+function mundoLiberado(i){ return true; }   /* todos os mundos abertos no Fácil */
+function nivelLiberado(i,j){ return j===0 || save.niveis[i][j-1]>0; }
+function bossLiberado(){ return save.niveis.every(w=> w.reduce((a,b)=>a+b,0) > 0); }
+
+/* ---------- mapa ---------- */
+function atualizarMapa(){
+  $('mapa-estrelas').textContent = totalEstrelas();
+  $('mapa-pontos').textContent = save.pontos;
+  const grade = $('grade-mundos'); grade.innerHTML='';
+  MUNDOS.forEach((m,i)=>{
+    const lib = mundoLiberado(i), est = somaMundo(i), max = m.niveis.length*3;
+    const div = document.createElement('div');
+    div.className = 'mundo '+(m.classe||'m1')+(lib?'':' bloqueado');
+    div.innerHTML = `<div class="ico">${m.titulo.split(' ')[0]}</div>
+      <h3>${m.titulo.replace(/^[^ ]+ /,'')}</h3>
+      <p>${m.desc}</p>
+      <div class="estrelinhas">⭐ ${est}/${max}</div>`;
+    div.onclick = ()=>{ if(lib){ somClique(); abrirNiveis(i);} else { somErro(); sacode(div);} };
+    grade.appendChild(div);
+  });
+  const cb=$('card-boss'), libB=bossLiberado();
+  cb.classList.toggle('bloqueado', !libB);
+  $('boss-status').textContent = libB
+    ? 'Tudo misturado e bem difícil. Você tem 3 vidas!'
+    : 'Conquiste pelo menos 1 estrela em cada mundo para liberar.';
+  $('boss-estrelas').textContent = save.boss>0 ? ('⭐'.repeat(save.boss)+'☆'.repeat(3-save.boss)) : '';
+  const ms=[ save.niveis.every(w=>w[0]>0), save.niveis.every(w=>w[1]>0), save.niveis.every(w=>w[2]>0), save.boss>0 ];
+  document.querySelectorAll('#vitrine-medalhas .med').forEach((el,i)=> el.classList.toggle('ganha', ms[i]));
+}
+function sacode(div){ div.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300}); }
+function tentarBoss(){ if(bossLiberado()){ somClique(); iniciarBoss(); } else { somErro(); sacode($('card-boss')); } }
+
+/* ---------- níveis ---------- */
+function abrirNiveis(i){
+  const m=MUNDOS[i];
+  $('niveis-titulo').textContent = m.titulo; $('niveis-desc').textContent = m.desc;
+  const grade=$('grade-niveis'); grade.innerHTML='';
+  m.niveis.forEach((nv,j)=>{
+    const lib=nivelLiberado(i,j), est=save.niveis[i][j];
+    const disp=nv.itens.length, eff=nQuestoes(m, disp);
+    const qtxt = eff<disp ? `${eff} de ${disp}<br>sorteadas` : `${disp} questões`;
+    const div=document.createElement('div'); div.className='nivel '+(nv.cor||['nf','nm','nd'][j]||'nf')+(lib?'':' bloqueado');
+    div.innerHTML=`<div class="grau">${nv.grau||['🟢','🟡','🔴'][j]||'⭐'}</div>
+      <div class="info"><h3>${nv.nome}</h3><div class="estrelinhas">${'⭐'.repeat(est)+'☆'.repeat(3-est)}</div></div>
+      <div style="font-size:13px;font-weight:700;opacity:.9;text-align:right">${qtxt}</div>`;
+    div.onclick=()=>{ if(lib){ somClique(); iniciar(i,j); } else { somErro(); sacode(div); } };
+    grade.appendChild(div);
+  });
+  mostrar('tela-niveis');
+}
+
+/* ---------- iniciar ---------- */
+function iniciar(idx, nivelIdx){
+  const m=MUNDOS[idx], nv=m.niveis[nivelIdx];
+  const baralhado = embaralhar(nv.itens);            // embaralha o banco do nível
+  const selec = baralhado.slice(0, nQuestoes(m, baralhado.length)); // sorteia N, sem repetir
+  jogo={ boss:false, idx, nivelIdx, m, tipo:(nv.tipo||m.tipo),
+         itens:selec, i:0, acertos:0, total:selec.length, respondeu:false };
+  $('jogo-titulo').textContent = m.titulo+' · '+nv.grau+' '+nv.nome;
+  $('pill-acertos').style.display=''; $('pill-vidas').style.display='none';
+  $('bossbar-wrap').style.display='none';
+  mostrar('tela-jogo'); renderPergunta();
+}
+function iniciarBoss(){
+  const baralhado = embaralhar(BOSS);
+  const nB = (typeof CONFIG.questoesChefao==='number' && CONFIG.questoesChefao>0)
+    ? Math.min(CONFIG.questoesChefao, baralhado.length) : baralhado.length;
+  const selec = baralhado.slice(0, nB);
+  jogo={ boss:true, itens:selec, i:0, acertos:0, total:selec.length, vidas:3, respondeu:false };
+  $('jogo-titulo').textContent = '🐉 CHEFÃO FINAL';
+  $('pill-acertos').style.display=''; $('pill-vidas').style.display='';
+  $('bossbar-wrap').style.display=''; renderVidas();
+  mostrar('tela-jogo'); somRugido(); renderPergunta();
+}
+function renderVidas(){ $('jogo-vidas').innerHTML = '❤️'.repeat(jogo.vidas)+'🤍'.repeat(3-jogo.vidas); }
+
+/* ---------- render pergunta ---------- */
+function tipoAtual(it){ return jogo.boss ? it.tipo : jogo.tipo; }
+function renderPergunta(){
+  clearTimeout(proxTimer); avancou=false; pararVoz();
+  const it=jogo.itens[jogo.i];
+  jogo.respondeu=false; jogo.dicasUsadas=0;
+  $('jogo-acertos').textContent = jogo.acertos;
+  $('jogo-passo').textContent = `Pergunta ${jogo.i+1} de ${jogo.total}`;
+  $('barra').style.width = (jogo.i/jogo.total*100)+'%';
+  if(jogo.boss) $('bossbar').style.width = (100 - jogo.acertos/jogo.total*100)+'%';
+  $('feedback').textContent=''; $('feedback').className='feedback';
+  $('dicas-box').innerHTML=''; $('rodape-jogo').innerHTML='';
+  const palco=$('palco'), area=$('area-resposta');
+  palco.innerHTML=''; area.innerHTML='';
+  const tipo=tipoAtual(it);
+  if(tipo==='grafia') renderGrafia(it, palco, area);
+  if(tipo==='mn')     renderMN(it, palco, area);
+  if(tipo==='aoam')   renderAOAM(it, palco, area);
+  if(tipo==='ponto')  renderPonto(it, palco, area);
+  if(tipo==='voz')    renderVoz(it, palco, area);
+  if(tipo==='silaba') renderSilaba(it, palco, area);
+  jogo.dicasLista = gerarDicas(it, tipo);
+  montarControles(tipo);
+}
+
+/* visual de "palco": emoji OU pista escrita (palavras sem emoji) */
+function topoVisual(it, extra){
+  if(it.emoji) return `<div class="emoji-grande">${it.emoji}</div>`+(extra||'');
+  if(it.clue)  return `<div class="pista-card">🔎 ${it.clue}</div>`+(extra||'');
+  return (extra||'');
+}
+
+/* ----- grafia ----- */
+function renderGrafia(it, palco, area){
+  palco.innerHTML = topoVisual(it);
+  const wrap=document.createElement('div'); wrap.className='opcoes';
+  embaralhar(it.ops).forEach(op=>{
+    const b=document.createElement('button'); b.className='op'; b.textContent=op;
+    b.onclick=()=>responder(b, op===it.resp, ()=>{
+      wrap.querySelectorAll('.op').forEach(x=>{ if(x.textContent===it.resp) x.classList.add('revela'); });
+    }, it.resp);
+    wrap.appendChild(b);
+  });
+  area.appendChild(wrap);
+}
+
+/* ----- M ou N ----- */
+function renderMN(it, palco, area){
+  palco.innerHTML = topoVisual(it, `<div class="frase">${it.exibe.replace('_','<span class="lacuna">?</span>')}</div>`);
+  const wrap=document.createElement('div'); wrap.className='opcoes duplo';
+  ['M','N'].forEach(letra=>{
+    const b=document.createElement('button'); b.className='op'; b.textContent=letra; b.style.fontSize='40px';
+    b.onclick=()=>responder(b, letra===it.resp, ()=>{
+      palco.querySelector('.frase').innerHTML = `<span style="color:var(--verde)">${it.full}</span>`;
+      wrap.querySelectorAll('.op').forEach(x=>{ if(x.textContent===it.resp) x.classList.add('revela'); });
+    }, it.full);
+    wrap.appendChild(b);
+  });
+  area.appendChild(wrap);
+}
+
+/* ----- ÃO ou AM (palavras inteiras) ----- */
+function renderAOAM(it, palco, area){
+  const branco = it.frase.replace('___','<span class="lacuna">?</span>');
+  palco.innerHTML = topoVisual(it, `<div class="frase">${branco}</div>`);
+  const wrap=document.createElement('div'); wrap.className='opcoes duplo';
+  embaralhar([it.a, it.b]).forEach(op=>{
+    const b=document.createElement('button'); b.className='op'; b.textContent=op; b.style.fontSize='23px';
+    b.onclick=()=>responder(b, op===it.correta, ()=>{
+      palco.querySelector('.frase').innerHTML = it.frase.replace('___', `<span style="color:var(--verde)">${it.correta}</span>`);
+      wrap.querySelectorAll('.op').forEach(x=>{ if(x.textContent===it.correta) x.classList.add('revela'); });
+    }, it.correta);
+    wrap.appendChild(b);
+  });
+  area.appendChild(wrap);
+}
+
+/* ----- ponto final ----- */
+function renderPonto(item, palco, area){
+  const frases = Array.isArray(item) ? item : item.frases;
+  palco.innerHTML = `<div class="instrucao">👆 Toque no quadradinho onde falta o ponto final de cada frase. Depois é só conferir!</div>`;
+  const cont=document.createElement('div'); cont.className='texto-ponto';
+  const corretos=new Set(), estado=new Set(); let slotIdx=0;
+  frases.forEach(fr=>{
+    const palavras=fr.split(' ');
+    palavras.forEach((p,pi)=>{
+      // palavra + seu quadradinho juntos num bloco que não quebra de linha
+      const token=document.createElement('span'); token.className='token';
+      const sp=document.createElement('span'); sp.className='palavra'; sp.textContent=p; token.appendChild(sp);
+      const slot=document.createElement('span'); slot.className='slot'; slot.dataset.idx=slotIdx;
+      if(pi===palavras.length-1) corretos.add(slotIdx);
+      const meu=slotIdx;
+      slot.onclick=()=>{
+        if(jogo.respondeu) return;
+        if(estado.has(meu)){ estado.delete(meu); slot.innerHTML=''; }
+        else { estado.add(meu); slot.innerHTML='<span class="pt"></span>'; somClique(); }
+      };
+      token.appendChild(slot);
+      cont.appendChild(token);
+      cont.appendChild(document.createTextNode(' ')); // espaço onde a linha PODE quebrar
+      slotIdx++;
+    });
+  });
+  area.appendChild(cont);
+  jogo.qtdPontos = corretos.size;
+  jogo.conferir = ()=>{
+    if(jogo.respondeu) return; jogo.respondeu=true;
+    const perfeito = (estado.size===corretos.size) && [...corretos].every(c=>estado.has(c));
+    cont.querySelectorAll('.slot').forEach(s=>{
+      const id=+s.dataset.idx;
+      if(corretos.has(id) && estado.has(id)) s.classList.add('ok');
+      else if(corretos.has(id) && !estado.has(id)){ s.classList.add('faltou'); s.innerHTML='<span class="pt" style="background:#b98900"></span>'; }
+      else if(!corretos.has(id) && estado.has(id)) s.classList.add('sobrou');
+    });
+    aplicarResultado(perfeito, null);
+  };
+}
+
+/* ----- ditado (voz): ouça e escreva ----- */
+function renderVoz(it, palco, area){
+  jogo.vozAtual = it;
+  palco.innerHTML = `<div class="emoji-grande">🎧</div>
+    <div class="frase" id="voz-frase">Ouça e escreva a palavra</div>`
+    + (TEM_VOZ ? '' : `<div class="pista-card">Seu aparelho está sem voz 🔇 — a palavra é: <b>${it.palavra}</b></div>`);
+
+  const audio=document.createElement('div'); audio.className='audio-row';
+  const bOuvir=document.createElement('button'); bOuvir.className='audio-btn principal'; bOuvir.textContent='🔊 Ouvir';
+  bOuvir.onclick=()=>{ ac(); falar(it.palavra,.85); };
+  const bDevagar=document.createElement('button'); bDevagar.className='audio-btn'; bDevagar.textContent='🐢 Devagar';
+  bDevagar.onclick=()=>{ falar(it.palavra,.5); };
+  audio.appendChild(bOuvir); audio.appendChild(bDevagar);
+  if(it.frase){ const bFrase=document.createElement('button'); bFrase.className='audio-btn'; bFrase.textContent='💬 Na frase';
+    bFrase.onclick=()=>{ falar(it.frase,.9); }; audio.appendChild(bFrase); }
+  area.appendChild(audio);
+
+  const inp=document.createElement('input'); inp.className='entrada'; inp.id='voz-input';
+  inp.type='text'; inp.autocomplete='off'; inp.autocapitalize='off'; inp.spellcheck=false;
+  inp.setAttribute('autocorrect','off'); inp.placeholder='escreva aqui...';
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); if(jogo.conferir) jogo.conferir(); } });
+  area.appendChild(inp);
+
+  const acRow=document.createElement('div'); acRow.className='acentos';
+  ['ã','õ','á','â','à','é','ê','í','ó','ô','ú','ç'].forEach(ch=>{
+    const a=document.createElement('button'); a.className='acento'; a.textContent=ch;
+    a.onclick=()=>{ const s=inp.selectionStart??inp.value.length, e=inp.selectionEnd??inp.value.length;
+      inp.value=inp.value.slice(0,s)+ch+inp.value.slice(e); const p=s+1; inp.focus(); try{inp.setSelectionRange(p,p);}catch(_){} };
+    acRow.appendChild(a);
+  });
+  area.appendChild(acRow);
+
+  jogo.conferir=()=>{
+    if(jogo.respondeu) return;
+    const dado=inp.value.trim().toLowerCase().replace(/\s+/g,' ');
+    if(!dado){ inp.focus(); inp.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:260}); return; }
+    jogo.respondeu=true;
+    const certo = dado===it.palavra.toLowerCase();
+    inp.disabled=true; inp.style.borderColor = certo?'var(--verde)':'var(--vermelho)';
+    $('voz-frase').innerHTML = certo ? `<span style="color:var(--verde)">${it.palavra}</span> ✅`
+                                     : `Era: <span style="color:var(--verde)">${it.palavra}</span>`;
+    aplicarResultado(certo, it.palavra);
+  };
+
+  if(TEM_VOZ) setTimeout(()=>falar(it.palavra,.85), 250);
+  setTimeout(()=>{ try{ inp.focus(); }catch(e){} }, 120);
+}
+
+/* ----- separar sílabas ----- */
+function renderSilaba(it, palco, area){
+  const silabas = it.silabas, palavra = silabas.join('');
+  const corretos = new Set(), estado = new Set();
+  let cum=0; for(let k=0;k<silabas.length-1;k++){ cum+=silabas[k].length; corretos.add(cum-1); } // corte após a letra (cum-1)
+  jogo.qtdSilabas = silabas.length;
+  jogo.silabasResp = silabas.join('-');
+
+  palco.innerHTML = `<div class="instrucao">✂️ Toque entre as letras para separar as sílabas. Depois é só conferir!</div>`;
+  const cont=document.createElement('div'); cont.className='silaba-wrap';
+  for(let i=0;i<palavra.length;i++){
+    const l=document.createElement('span'); l.className='letra'; l.textContent=palavra[i]; cont.appendChild(l);
+    if(i<palavra.length-1){
+      const corte=document.createElement('span'); corte.className='corte'; corte.dataset.idx=i;
+      const meu=i;
+      corte.onclick=()=>{
+        if(jogo.respondeu) return;
+        if(estado.has(meu)){ estado.delete(meu); corte.classList.remove('ativo'); }
+        else { estado.add(meu); corte.classList.add('ativo'); somClique(); }
+      };
+      cont.appendChild(corte);
+    }
+  }
+  area.appendChild(cont);
+
+  jogo.conferir=()=>{
+    if(jogo.respondeu) return; jogo.respondeu=true;
+    const perfeito = (estado.size===corretos.size) && [...corretos].every(c=>estado.has(c));
+    cont.querySelectorAll('.corte').forEach(c=>{
+      const id=+c.dataset.idx;
+      if(corretos.has(id)&&estado.has(id)) c.classList.add('ok');
+      else if(corretos.has(id)&&!estado.has(id)) c.classList.add('faltou','ativo');
+      else if(!corretos.has(id)&&estado.has(id)) c.classList.add('sobrou');
+    });
+    aplicarResultado(perfeito, perfeito?null:jogo.silabasResp);
+  };
+}
+
+/* ---------- controles: Dica (+Conferir no ponto/voz/sílaba) ---------- */
+function montarControles(tipo){
+  const r=$('rodape-jogo'); r.innerHTML='';
+  const linha=document.createElement('div'); linha.className='linha-btn';
+  const dica=document.createElement('button'); dica.className='btn amarelo'; dica.id='btn-dica';
+  dica.onclick=pedirDica; linha.appendChild(dica);
+  if(tipo==='ponto' || tipo==='voz' || tipo==='silaba'){
+    const conf=document.createElement('button'); conf.className='btn verde'; conf.textContent='✅ Conferir';
+    conf.onclick=()=>{ if(jogo.conferir) jogo.conferir(); }; linha.appendChild(conf);
+  }
+  r.appendChild(linha); atualizarBotaoDica();
+}
+function atualizarBotaoDica(){
+  const b=$('btn-dica'); if(!b) return;
+  const restam = Math.min(3, jogo.dicasLista.length) - jogo.dicasUsadas;
+  b.textContent = restam>0 ? `💡 Dica (${restam})` : '💡 Sem mais dicas';
+  b.disabled = restam<=0 || jogo.respondeu;
+}
+
+/* ---------- dicas (até 3 por questão) ---------- */
+function gerarDicas(it, tipo){
+  if(tipo==='grafia'){
+    const plural = /ões|ães|ãos/.test(it.resp);
+    return [
+      {texto:'Leia cada opção bem devagar e escute o som no nariz (ã, õ).'},
+      {texto: plural ? 'No plural, o som /ão/ pode virar <b>-ÕES</b>, <b>-ÃES</b> ou <b>-ÃOS</b>.'
+                     : 'O som /ão/ no fim da palavra costuma ser escrito com <b>-ÃO</b>. Cuidado com "m" e "n" trocados!'},
+      {texto:'Vou tirar uma opção errada pra te ajudar! 😉', acao:'eliminar'},
+    ];
+  }
+  if(tipo==='mn'){
+    const prox = (it.exibe.charAt(it.exibe.indexOf('_')+1)||'').toUpperCase();
+    const ehPB = (prox==='P'||prox==='B');
+    return [
+      {texto:'Olhe bem a letra que vem <b>logo depois</b> do espaço.'},
+      {texto:'Se a próxima letra for <b>P</b> ou <b>B</b>, escreva <b>M</b>. Se for outra, escreva <b>N</b>.'},
+      {texto:`A próxima letra é "<b>${prox}</b>", então ${ehPB?'é <b>M</b>':'é <b>N</b>'}.`},
+    ];
+  }
+  if(tipo==='aoam'){
+    return [
+      {texto:'Procure a palavra de <b>tempo</b> na frase (ontem, amanhã, depois, passada...).'},
+      {texto:'Já aconteceu (passado) → termina em <b>AM</b>. Vai acontecer (futuro) → termina em <b>ÃO</b>.'},
+      {texto: it.tip},
+    ];
+  }
+  if(tipo==='ponto'){
+    return [
+      {texto:'Cada <b>frase</b> é uma ideia completa. Conte quantas ideias há no texto.'},
+      {texto:'Toda frase nova começa com letra <b>MAIÚSCULA</b> — ali a frase anterior terminou!'},
+      {texto:`Você precisa colocar <b>${jogo.qtdPontos}</b> ponto(s) final(is).`},
+    ];
+  }
+  if(tipo==='voz'){
+    const pal = jogo.vozAtual ? jogo.vozAtual.palavra : '';
+    const nasal = /[ãõ]/.test(pal) ? 'Tem <b>til (~)</b> em alguma vogal! Ouça o som no nariz.'
+                                   : 'Atenção: tem <b>M</b> ou <b>N</b>? Lembre: antes de P e B é M.';
+    return [
+      {texto:`A palavra tem <b>${pal.length}</b> letras e começa com "<b>${pal.charAt(0)}</b>".`},
+      {texto: nasal},
+      {texto:`Começa assim: "<b>${pal.slice(0, Math.ceil(pal.length/2))}</b>..."`},
+    ];
+  }
+  if(tipo==='silaba'){
+    const n = jogo.qtdSilabas||0;
+    return [
+      {texto:'Bata uma palma para cada pedacinho que você fala. Cada palma é uma sílaba!'},
+      {texto:`Esta palavra tem <b>${n}</b> sílabas, então você coloca <b>${n-1}</b> risquinho(s).`},
+      {texto:`A primeira sílaba é "<b>${(jogo.silabasResp||'').split('-')[0]}</b>".`},
+    ];
+  }
+  return [];
+}
+function pedirDica(){
+  if(jogo.respondeu) return;
+  const max = Math.min(3, jogo.dicasLista.length);
+  if(jogo.dicasUsadas >= max) return;
+  const d = jogo.dicasLista[jogo.dicasUsadas++];
+  if(d.acao==='eliminar') eliminarOpcao();
+  const p=document.createElement('div'); p.className='dica'; p.innerHTML='💡 '+d.texto;
+  $('dicas-box').appendChild(p);
+  somClique(); atualizarBotaoDica();
+}
+function eliminarOpcao(){
+  const it=jogo.itens[jogo.i];
+  const correto = (tipoAtual(it)==='grafia') ? it.resp : it.correta;
+  const cands=[...$('area-resposta').querySelectorAll('.op')].filter(b=>b.textContent!==correto && !b.classList.contains('eliminada'));
+  if(cands.length) cands[0].classList.add('eliminada');
+}
+
+/* ---------- responder (grafia/mn/aoam) ---------- */
+function responder(botao, certo, revela, correta){
+  if(jogo.respondeu) return; jogo.respondeu=true;
+  $('area-resposta').querySelectorAll('.op').forEach(b=>b.style.pointerEvents='none');
+  botao.classList.add(certo?'certo':'errado');
+  if(revela) revela();
+  aplicarResultado(certo, correta);
+}
+
+/* ---------- resultado da questão (sem confirmar; avança sozinho) ---------- */
+function aplicarResultado(certo, correta){
+  if(certo) jogo.acertos++;
+  $('jogo-acertos').textContent = jogo.acertos;
+  const bd=$('btn-dica'); if(bd) bd.disabled=true;
+  s_feedback(certo, correta);
+  if(jogo.boss){
+    $('bossbar').style.width = (100 - jogo.acertos/jogo.total*100)+'%';
+    if(!certo){
+      jogo.vidas--; renderVidas();
+      if(jogo.vidas<=0){ $('rodape-jogo').innerHTML=''; proxTimer=setTimeout(bossDerrota, 1500); return; }
+    }
+  }
+  agendarProximo(certo ? 1200 : 2400);
+}
+
+function s_feedback(certo, correta){
+  const f=$('feedback');
+  if(certo){
+    somCerto();
+    f.textContent = ['🎉 Isso aí!','✨ Mandou bem!','👏 Perfeito!','🌟 Acertou!'][Math.floor(Math.random()*4)];
+    f.className='feedback bom'; miniEstrela();
+  }else{
+    somErro();
+    f.innerHTML = correta ? ('❌ Ops! O certo é: <b>'+correta+'</b>') : '❌ Quase! Veja os pontos certos em verde 👀';
+    f.className='feedback ruim';
+  }
+}
+function miniEstrela(){
+  const s=document.createElement('div'); s.textContent='⭐';
+  s.style.cssText='position:fixed;left:50%;top:40%;font-size:60px;z-index:60;pointer-events:none;transform:translate(-50%,-50%)';
+  s.animate([{opacity:0,transform:'translate(-50%,-50%) scale(.2)'},{opacity:1,transform:'translate(-50%,-90%) scale(1.4)'},{opacity:0,transform:'translate(-50%,-160%) scale(1)'}],{duration:900,easing:'ease-out'});
+  document.body.appendChild(s); setTimeout(()=>s.remove(),900);
+}
+
+/* ---------- avanço automático ---------- */
+function agendarProximo(delay){
+  const r=$('rodape-jogo'); r.innerHTML='';
+  const linha=document.createElement('div'); linha.className='linha-btn';
+  const ultima = jogo.i>=jogo.total-1;
+  const b=document.createElement('button'); b.className='btn '+(ultima?'verde':'azul');
+  b.textContent = ultima ? '🏁 Ver resultado' : '➡️ Continuar';
+  b.onclick=avancar; linha.appendChild(b); r.appendChild(linha);
+  proxTimer=setTimeout(avancar, delay);
+}
+function avancar(){
+  if(avancou) return; avancou=true; clearTimeout(proxTimer);
+  jogo.i++;
+  if(jogo.i>=jogo.total) finalizar(); else renderPergunta();
+}
+
+/* ---------- fim ---------- */
+function finalizar(){
+  $('barra').style.width='100%';
+  if(jogo.boss){ finalizarBoss(); return; }
+  const {acertos,total,idx,nivelIdx} = jogo;
+  const pct=acertos/total;
+  const estrelas = pct>=0.9?3 : pct>=0.7?2 : pct>=0.5?1 : 0;
+  const ganhos = acertos*10 + estrelas*15;
+  if(estrelas > save.niveis[idx][nivelIdx]) save.niveis[idx][nivelIdx]=estrelas;
+  save.pontos += ganhos; gravar();
+  $('fim-acertos').textContent=`${acertos}/${total}`; $('fim-pontos').textContent=ganhos;
+  $('fim-mascote').textContent = estrelas>=3?'🦉🎓' : estrelas>=1?'🦉' : '🦉💤';
+  $('fim-titulo').textContent = estrelas>=3?'INCRÍVEL!' : estrelas>=2?'Muito bem!' : estrelas>=1?'Boa!' : 'Vamos treinar mais!';
+  $('fim-msg').textContent = estrelas>=3?'Você é um mestre das palavras! 👑'
+                          : estrelas>=1?'Continue assim, está indo muito bem!'
+                          : 'Tente de novo, você consegue! 💪';
+  pintarEstrelas(estrelas);
+  $('btn-denovo').onclick=()=>{ somClique(); iniciar(idx,nivelIdx); };
+  mostrar('tela-fim');
+  if(estrelas>=1){ somVitoria(); confete(); } else somErro();
+}
+function finalizarBoss(){
+  const vidas=jogo.vidas, acertos=jogo.acertos, total=jogo.total;
+  const estrelas = vidas, ganhos = acertos*15 + vidas*40;
+  if(estrelas > save.boss) save.boss=estrelas;
+  save.pontos += ganhos; gravar();
+  $('fim-acertos').textContent=`${acertos}/${total}`; $('fim-pontos').textContent=ganhos;
+  $('fim-mascote').textContent='🏆';
+  $('fim-titulo').textContent='VOCÊ DERROTOU O DRAGÃO!';
+  $('fim-msg').textContent='Parabéns, campeão das palavras! 🎉👑';
+  pintarEstrelas(estrelas);
+  $('btn-denovo').onclick=()=>{ somClique(); iniciarBoss(); };
+  mostrar('tela-fim'); somVitoria(); confete();
+}
+function bossDerrota(){
+  const ganhos = jogo.acertos*5; save.pontos += ganhos; gravar();
+  $('fim-acertos').textContent=`${jogo.acertos}/${jogo.total}`; $('fim-pontos').textContent=ganhos;
+  $('fim-mascote').textContent='🐉';
+  $('fim-titulo').textContent='O dragão venceu desta vez!';
+  $('fim-msg').textContent='Suas vidas acabaram. Treine mais e volte para vencer! 💪';
+  pintarEstrelas(0);
+  $('btn-denovo').onclick=()=>{ somClique(); iniciarBoss(); };
+  mostrar('tela-fim'); somRugido();
+}
+function pintarEstrelas(n){
+  const cont=$('fim-estrelas'); cont.innerHTML='';
+  for(let k=0;k<3;k++){ const e=document.createElement('span'); e.className='star-pop'; e.style.animationDelay=(k*.25)+'s'; e.textContent=k<n?'⭐':'☆'; cont.appendChild(e); }
+}
+function confirmarSair(){ if(confirm('Sair agora? O progresso desta rodada não será salvo.')){ somClique(); pararVoz(); irMapa(); } }
+
+/* ---------- carregar exercícios do JSON (com reserva embutida) ---------- */
+async function carregarExercicios(){
+  try{
+    const r = await fetch('exercicios.json', { cache:'no-store' });
+    if(r.ok){
+      const j = await r.json();
+      if(j && Array.isArray(j.mundos) && j.mundos.length){ MUNDOS = j.mundos; }
+      if(j && Array.isArray(j.chefao)){ BOSS = j.chefao; }
+      if(j && typeof j.questoesPorMundo==='number') CONFIG.questoesPorMundo = j.questoesPorMundo;
+      if(j && typeof j.questoesChefao==='number')   CONFIG.questoesChefao   = j.questoesChefao;
+      console.log('Exercícios carregados do exercicios.json ✔');
+    }
+  }catch(e){
+    // Aberto por duplo-clique (file://) o navegador bloqueia ler o .json.
+    // Sem problema: o jogo usa a cópia de reserva embutida no index.html.
+    console.log('Usando exercícios embutidos (reserva). Para puxar o exercicios.json, use o servidor.bat ou hospede num site.');
+  }
+  normalizeSave();
+  atualizarMapa();
+}
+
+/* ---------- start ---------- */
+carregarExercicios();
+</script>
+</body>
+</html>

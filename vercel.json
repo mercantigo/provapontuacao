@@ -1,0 +1,37 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/provapontuacao/",
+      "permanent": false
+    },
+    {
+      "source": "/provapontuacao",
+      "destination": "/provapontuacao/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/provapontuacao/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/provapontuacao/:path*",
+      "destination": "/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/provapontuacao/exercicios.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ]
+}

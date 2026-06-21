@@ -1,0 +1,1378 @@
+{
+  "versao": 1,
+  "_ajuda_questoesPorMundo": "Quantas questoes o jogador responde em cada NIVEL de um mundo. Se o banco tiver mais que isso, o jogo SORTEIA sem repetir. Use 0 para responder TODAS. Da para sobrescrever em um mundo especifico colocando \"questoes\": N dentro do mundo.",
+  "questoesPorMundo": 5,
+  "questoesChefao": 0,
+  "mundos": [
+    {
+      "titulo": "🌳 Mundo do Til",
+      "tipo": "grafia",
+      "classe": "m1",
+      "desc": "Escreva certo as palavras nasais (til ~).",
+      "niveis": [
+        {
+          "nome": "Fácil",
+          "cor": "nf",
+          "grau": "🟢",
+          "itens": [
+            {
+              "emoji": "🍎",
+              "resp": "maçã",
+              "ops": [
+                "maca",
+                "maçã",
+                "masã"
+              ]
+            },
+            {
+              "emoji": "🍞",
+              "resp": "pão",
+              "ops": [
+                "pao",
+                "pão",
+                "pãu"
+              ]
+            },
+            {
+              "emoji": "✋",
+              "resp": "mão",
+              "ops": [
+                "mão",
+                "mao",
+                "mãu"
+              ]
+            },
+            {
+              "emoji": "🐕",
+              "resp": "cão",
+              "ops": [
+                "cão",
+                "cao",
+                "caum"
+              ]
+            },
+            {
+              "emoji": "🦁",
+              "resp": "leão",
+              "ops": [
+                "leao",
+                "leão",
+                "lião"
+              ]
+            },
+            {
+              "emoji": "🎈",
+              "resp": "balão",
+              "ops": [
+                "balao",
+                "balão",
+                "balãu"
+              ]
+            },
+            {
+              "emoji": "🍋",
+              "resp": "limão",
+              "ops": [
+                "limao",
+                "limão",
+                "limãu"
+              ]
+            },
+            {
+              "emoji": "❤️",
+              "resp": "coração",
+              "ops": [
+                "coração",
+                "coraçao",
+                "corasão"
+              ]
+            },
+            {
+              "emoji": "🫘",
+              "resp": "feijão",
+              "ops": [
+                "feijao",
+                "feijão",
+                "feijaum"
+              ]
+            },
+            {
+              "emoji": "🍈",
+              "resp": "melão",
+              "ops": [
+                "melão",
+                "melao",
+                "melãu"
+              ]
+            }
+          ]
+        },
+        {
+          "nome": "Médio",
+          "cor": "nm",
+          "grau": "🟡",
+          "itens": [
+            {
+              "emoji": "📺",
+              "resp": "televisão",
+              "ops": [
+                "televisao",
+                "televisão",
+                "televizão"
+              ]
+            },
+            {
+              "emoji": "🚉",
+              "resp": "estação",
+              "ops": [
+                "estaçao",
+                "estação",
+                "estassão"
+              ]
+            },
+            {
+              "emoji": "🚚",
+              "resp": "caminhão",
+              "ops": [
+                "caminhao",
+                "caminhão",
+                "caminhãu"
+              ]
+            },
+            {
+              "emoji": "🎓",
+              "resp": "educação",
+              "ops": [
+                "educaçao",
+                "educação",
+                "edukação"
+              ]
+            },
+            {
+              "emoji": "🍽️",
+              "resp": "refeição",
+              "ops": [
+                "refeiçao",
+                "refeição",
+                "refeissão"
+              ]
+            },
+            {
+              "emoji": "💥",
+              "resp": "explosão",
+              "ops": [
+                "explosao",
+                "explosão",
+                "esplosão"
+              ]
+            },
+            {
+              "emoji": "🎵",
+              "resp": "canção",
+              "ops": [
+                "cançao",
+                "canção",
+                "cansão"
+              ]
+            },
+            {
+              "emoji": "🐉",
+              "resp": "dragão",
+              "ops": [
+                "dragao",
+                "dragão",
+                "dragãu"
+              ]
+            },
+            {
+              "clue": "A sua irmã: a filha dos seus pais (menina).",
+              "resp": "irmã",
+              "ops": [
+                "irma",
+                "irmã",
+                "irman"
+              ]
+            },
+            {
+              "clue": "Quem ganha em primeiro lugar é o...",
+              "resp": "campeão",
+              "ops": [
+                "campeao",
+                "campeão",
+                "campião"
+              ]
+            },
+            {
+              "clue": "A parte do dia em que você acorda e vai à escola.",
+              "resp": "manhã",
+              "ops": [
+                "manha",
+                "manhã",
+                "manhan"
+              ]
+            },
+            {
+              "clue": "Uma pessoa que nasceu na Alemanha é um...",
+              "resp": "alemão",
+              "ops": [
+                "alemao",
+                "alemão",
+                "alemãun"
+              ]
+            }
+          ]
+        },
+        {
+          "nome": "Difícil",
+          "cor": "nd",
+          "grau": "🔴",
+          "itens": [
+            {
+              "emoji": "🦁🦁",
+              "resp": "leões",
+              "ops": [
+                "leoes",
+                "leões",
+                "leãos",
+                "liões"
+              ]
+            },
+            {
+              "emoji": "🎈🎈",
+              "resp": "balões",
+              "ops": [
+                "baloes",
+                "balões",
+                "balãos",
+                "balõens"
+              ]
+            },
+            {
+              "emoji": "🍋🍋",
+              "resp": "limões",
+              "ops": [
+                "limoes",
+                "limões",
+                "limãos",
+                "limõens"
+              ]
+            },
+            {
+              "emoji": "✈️✈️",
+              "resp": "aviões",
+              "ops": [
+                "avioes",
+                "aviões",
+                "aviãos",
+                "aviãoes"
+              ]
+            },
+            {
+              "emoji": "🍞🍞",
+              "resp": "pães",
+              "ops": [
+                "paes",
+                "pães",
+                "pãens",
+                "pãis"
+              ]
+            },
+            {
+              "emoji": "🐕🐕",
+              "resp": "cães",
+              "ops": [
+                "caes",
+                "cães",
+                "cãens",
+                "cãis"
+              ]
+            },
+            {
+              "emoji": "🤲",
+              "resp": "mãos",
+              "ops": [
+                "maos",
+                "mãos",
+                "mãus",
+                "mões"
+              ]
+            },
+            {
+              "emoji": "💭",
+              "resp": "opinião",
+              "ops": [
+                "opiniao",
+                "opinião",
+                "opnião",
+                "opineão"
+              ]
+            },
+            {
+              "emoji": "🍱",
+              "resp": "ração",
+              "ops": [
+                "raçao",
+                "ração",
+                "rassão",
+                "rasão"
+              ]
+            },
+            {
+              "emoji": "📖",
+              "resp": "lição",
+              "ops": [
+                "liçao",
+                "lição",
+                "lissão",
+                "lisão"
+              ]
+            },
+            {
+              "clue": "O dia depois de hoje.",
+              "resp": "amanhã",
+              "ops": [
+                "amanha",
+                "amanhã",
+                "amanham",
+                "amanhân"
+              ]
+            },
+            {
+              "clue": "Quando você está certo, dizemos que você tem...",
+              "resp": "razão",
+              "ops": [
+                "razao",
+                "razão",
+                "rasão",
+                "razam"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "🏰 Castelo M ou N",
+      "tipo": "mn",
+      "classe": "m2",
+      "desc": "M antes de P e B; N antes das outras.",
+      "niveis": [
+        {
+          "nome": "Fácil",
+          "cor": "nf",
+          "grau": "🟢",
+          "tipo": "mn",
+          "itens": [
+            {
+              "emoji": "🌾",
+              "exibe": "ca_po",
+              "resp": "M",
+              "full": "campo"
+            },
+            {
+              "emoji": "💣",
+              "exibe": "bo_ba",
+              "resp": "M",
+              "full": "bomba"
+            },
+            {
+              "emoji": "⏰",
+              "exibe": "te_po",
+              "resp": "M",
+              "full": "tempo"
+            },
+            {
+              "emoji": "🕊️",
+              "exibe": "po_ba",
+              "resp": "M",
+              "full": "pomba"
+            },
+            {
+              "emoji": "💃",
+              "exibe": "sa_ba",
+              "resp": "M",
+              "full": "samba"
+            },
+            {
+              "emoji": "🎵",
+              "exibe": "ca_to",
+              "resp": "N",
+              "full": "canto"
+            },
+            {
+              "emoji": "🌉",
+              "exibe": "po_te",
+              "resp": "N",
+              "full": "ponte"
+            },
+            {
+              "emoji": "🦷",
+              "exibe": "de_te",
+              "resp": "N",
+              "full": "dente"
+            },
+            {
+              "emoji": "🍃",
+              "exibe": "ve_to",
+              "resp": "N",
+              "full": "vento"
+            },
+            {
+              "emoji": "🌍",
+              "exibe": "mu_do",
+              "resp": "N",
+              "full": "mundo"
+            }
+          ]
+        },
+        {
+          "nome": "Médio",
+          "cor": "nm",
+          "grau": "🟡",
+          "tipo": "mn",
+          "itens": [
+            {
+              "emoji": "🛒",
+              "exibe": "co_pra",
+              "resp": "M",
+              "full": "compra"
+            },
+            {
+              "emoji": "⭐",
+              "exibe": "i_portante",
+              "resp": "M",
+              "full": "importante"
+            },
+            {
+              "emoji": "🌧️",
+              "exibe": "te_pestade",
+              "resp": "M",
+              "full": "tempestade"
+            },
+            {
+              "emoji": "🤝",
+              "exibe": "co_binar",
+              "resp": "M",
+              "full": "combinar"
+            },
+            {
+              "emoji": "🎁",
+              "exibe": "e_brulho",
+              "resp": "M",
+              "full": "embrulho"
+            },
+            {
+              "emoji": "🌡️",
+              "exibe": "te_peratura",
+              "resp": "M",
+              "full": "temperatura"
+            },
+            {
+              "emoji": "💬",
+              "exibe": "co_versa",
+              "resp": "N",
+              "full": "conversa"
+            },
+            {
+              "emoji": "🧠",
+              "exibe": "i_teligente",
+              "resp": "N",
+              "full": "inteligente"
+            },
+            {
+              "emoji": "🛋️",
+              "exibe": "co_fortável",
+              "resp": "N",
+              "full": "confortável"
+            },
+            {
+              "emoji": "🏃",
+              "exibe": "co_seguir",
+              "resp": "N",
+              "full": "conseguir"
+            }
+          ]
+        },
+        {
+          "nome": "Difícil",
+          "cor": "nd",
+          "grau": "🔴",
+          "tipo": "grafia",
+          "itens": [
+            {
+              "emoji": "🤾",
+              "resp": "também",
+              "ops": [
+                "tanbém",
+                "também",
+                "tambén"
+              ]
+            },
+            {
+              "emoji": "🌳",
+              "resp": "jardim",
+              "ops": [
+                "jardin",
+                "jardim",
+                "jardím"
+              ]
+            },
+            {
+              "emoji": "😖",
+              "resp": "ruim",
+              "ops": [
+                "ruin",
+                "ruim",
+                "ruím"
+              ]
+            },
+            {
+              "emoji": "🍬",
+              "resp": "bombom",
+              "ops": [
+                "bonbom",
+                "bombom",
+                "bonbon"
+              ]
+            },
+            {
+              "emoji": "🧑",
+              "resp": "homem",
+              "ops": [
+                "homen",
+                "homem",
+                "hómem"
+              ]
+            },
+            {
+              "emoji": "☁️",
+              "resp": "nuvem",
+              "ops": [
+                "nuven",
+                "nuvem",
+                "nuvém"
+              ]
+            },
+            {
+              "emoji": "📀",
+              "resp": "álbum",
+              "ops": [
+                "álbun",
+                "álbum",
+                "álbumn"
+              ]
+            },
+            {
+              "emoji": "☂️",
+              "resp": "sombra",
+              "ops": [
+                "sonbra",
+                "sombra",
+                "sombrá"
+              ]
+            },
+            {
+              "emoji": "🦨",
+              "resp": "gambá",
+              "ops": [
+                "ganbá",
+                "gambá",
+                "gambã"
+              ]
+            },
+            {
+              "emoji": "🫧",
+              "resp": "embora",
+              "ops": [
+                "enbora",
+                "embora",
+                "embóra"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "🏖️ Praia ÃO ou AM",
+      "tipo": "aoam",
+      "classe": "m3",
+      "desc": "Passado escreve AM; futuro escreve ÃO.",
+      "niveis": [
+        {
+          "nome": "Fácil",
+          "cor": "nf",
+          "grau": "🟢",
+          "itens": [
+            {
+              "emoji": "🛝",
+              "frase": "Ontem as crianças ___ no parque.",
+              "a": "brincaram",
+              "b": "brincarão",
+              "correta": "brincaram",
+              "tip": "ONTEM = já passou → escreve com AM."
+            },
+            {
+              "emoji": "🎤",
+              "frase": "Amanhã as meninas ___ no palco.",
+              "a": "cantaram",
+              "b": "cantarão",
+              "correta": "cantarão",
+              "tip": "AMANHÃ = vai acontecer → escreve com ÃO."
+            },
+            {
+              "emoji": "🦆",
+              "frase": "Ontem os patos ___ no lago.",
+              "a": "nadaram",
+              "b": "nadarão",
+              "correta": "nadaram",
+              "tip": "ONTEM = passado → AM."
+            },
+            {
+              "emoji": "⚽",
+              "frase": "Amanhã os times ___ a final.",
+              "a": "jogaram",
+              "b": "jogarão",
+              "correta": "jogarão",
+              "tip": "AMANHÃ = futuro → ÃO."
+            },
+            {
+              "emoji": "🍪",
+              "frase": "Ontem eles ___ todos os biscoitos.",
+              "a": "comeram",
+              "b": "comerão",
+              "correta": "comeram",
+              "tip": "ONTEM = passado → AM."
+            },
+            {
+              "emoji": "🏃",
+              "frase": "Amanhã elas ___ na corrida.",
+              "a": "correram",
+              "b": "correrão",
+              "correta": "correrão",
+              "tip": "AMANHÃ = futuro → ÃO."
+            },
+            {
+              "emoji": "📚",
+              "frase": "Ontem as crianças ___ para a prova.",
+              "a": "estudaram",
+              "b": "estudarão",
+              "correta": "estudaram",
+              "tip": "ONTEM = passado → AM."
+            },
+            {
+              "emoji": "✈️",
+              "frase": "Amanhã meus tios ___ de avião.",
+              "a": "viajaram",
+              "b": "viajarão",
+              "correta": "viajarão",
+              "tip": "AMANHÃ = futuro → ÃO."
+            },
+            {
+              "emoji": "🗣️",
+              "frase": "Ontem os meninos ___ bem alto.",
+              "a": "falaram",
+              "b": "falarão",
+              "correta": "falaram",
+              "tip": "ONTEM = passado → AM."
+            },
+            {
+              "emoji": "🤸",
+              "frase": "Amanhã os atletas ___ bem alto.",
+              "a": "pularam",
+              "b": "pularão",
+              "correta": "pularão",
+              "tip": "AMANHÃ = futuro → ÃO."
+            }
+          ]
+        },
+        {
+          "nome": "Médio",
+          "cor": "nm",
+          "grau": "🟡",
+          "itens": [
+            {
+              "emoji": "🎨",
+              "frase": "Na semana passada os artistas ___ o muro.",
+              "a": "pintaram",
+              "b": "pintarão",
+              "correta": "pintaram",
+              "tip": "\"passada\" = já passou → AM."
+            },
+            {
+              "emoji": "🎁",
+              "frase": "No próximo ano eles ___ um prêmio.",
+              "a": "ganharam",
+              "b": "ganharão",
+              "correta": "ganharão",
+              "tip": "\"próximo\" = futuro → ÃO."
+            },
+            {
+              "emoji": "🧹",
+              "frase": "Mais cedo as tias ___ a sala.",
+              "a": "limparam",
+              "b": "limparão",
+              "correta": "limparam",
+              "tip": "Já aconteceu → AM."
+            },
+            {
+              "emoji": "🛒",
+              "frase": "Depois do almoço eles ___ pão.",
+              "a": "compraram",
+              "b": "comprarão",
+              "correta": "comprarão",
+              "tip": "\"depois\" = futuro → ÃO."
+            },
+            {
+              "emoji": "🚪",
+              "frase": "Hoje de manhã elas ___ as janelas.",
+              "a": "abriram",
+              "b": "abrirão",
+              "correta": "abriram",
+              "tip": "Já passou (de manhã) → AM."
+            },
+            {
+              "emoji": "😴",
+              "frase": "Hoje à noite as crianças ___ cedo.",
+              "a": "dormiram",
+              "b": "dormirão",
+              "correta": "dormirão",
+              "tip": "Vai acontecer (à noite) → ÃO."
+            },
+            {
+              "emoji": "🎓",
+              "frase": "No mês passado os alunos ___ tudo.",
+              "a": "aprenderam",
+              "b": "aprenderão",
+              "correta": "aprenderam",
+              "tip": "\"passado\" = passado → AM."
+            },
+            {
+              "emoji": "🚲",
+              "frase": "No domingo passado eles ___ de bike.",
+              "a": "andaram",
+              "b": "andarão",
+              "correta": "andaram",
+              "tip": "\"passado\" = passado → AM."
+            },
+            {
+              "emoji": "🏠",
+              "frase": "Daqui a pouco eles ___ para casa.",
+              "a": "voltaram",
+              "b": "voltarão",
+              "correta": "voltarão",
+              "tip": "\"daqui a pouco\" = futuro → ÃO."
+            },
+            {
+              "emoji": "✅",
+              "frase": "Na aula de ontem eles ___ a lição.",
+              "a": "terminaram",
+              "b": "terminarão",
+              "correta": "terminaram",
+              "tip": "\"ontem\" = passado → AM."
+            }
+          ]
+        },
+        {
+          "nome": "Difícil",
+          "cor": "nd",
+          "grau": "🔴",
+          "itens": [
+            {
+              "emoji": "⏩",
+              "frase": "Logo mais os alunos ___ o trabalho.",
+              "a": "apresentaram",
+              "b": "apresentarão",
+              "correta": "apresentarão",
+              "tip": "\"Logo mais\" = futuro → ÃO."
+            },
+            {
+              "emoji": "⏪",
+              "frase": "Faz uma hora que eles ___ aqui.",
+              "a": "chegaram",
+              "b": "chegarão",
+              "correta": "chegaram",
+              "tip": "\"Faz uma hora\" = já passou → AM."
+            },
+            {
+              "emoji": "⏩",
+              "frase": "Na próxima semana elas ___ os livros.",
+              "a": "venderam",
+              "b": "venderão",
+              "correta": "venderão",
+              "tip": "\"próxima\" = futuro → ÃO."
+            },
+            {
+              "emoji": "⏪",
+              "frase": "No ano passado eles ___ bastante.",
+              "a": "sorriram",
+              "b": "sorrirão",
+              "correta": "sorriram",
+              "tip": "\"passado\" = passado → AM."
+            },
+            {
+              "emoji": "⏩",
+              "frase": "Amanhã cedo os trens ___ da estação.",
+              "a": "partiram",
+              "b": "partirão",
+              "correta": "partirão",
+              "tip": "\"Amanhã\" = futuro → ÃO."
+            },
+            {
+              "emoji": "⏪",
+              "frase": "Ontem à tarde as crianças ___ suco.",
+              "a": "beberam",
+              "b": "beberão",
+              "correta": "beberam",
+              "tip": "\"Ontem\" = passado → AM."
+            },
+            {
+              "emoji": "⏩",
+              "frase": "Em breve os campeões ___ os prêmios.",
+              "a": "receberam",
+              "b": "receberão",
+              "correta": "receberão",
+              "tip": "\"Em breve\" = futuro → ÃO."
+            },
+            {
+              "emoji": "⏪",
+              "frase": "Há pouco eles ___ a porta.",
+              "a": "abriram",
+              "b": "abrirão",
+              "correta": "abriram",
+              "tip": "\"Há pouco\" = já passou → AM."
+            },
+            {
+              "emoji": "⏩",
+              "frase": "No próximo jogo eles ___ a vitória.",
+              "a": "comemoraram",
+              "b": "comemorarão",
+              "correta": "comemorarão",
+              "tip": "\"próximo\" = futuro → ÃO."
+            },
+            {
+              "emoji": "⏪",
+              "frase": "Na festa passada todos ___ muito.",
+              "a": "dançaram",
+              "b": "dançarão",
+              "correta": "dançaram",
+              "tip": "\"passada\" = passado → AM."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "🚉 Estação do Ponto",
+      "tipo": "ponto",
+      "classe": "m4",
+      "desc": "Coloque o ponto final no lugar certo.",
+      "niveis": [
+        {
+          "nome": "Fácil",
+          "cor": "nf",
+          "grau": "🟢",
+          "itens": [
+            [
+              "O gato subiu no telhado",
+              "Ele viu um passarinho"
+            ],
+            [
+              "A Ana gosta de ler",
+              "Ela tem muitos livros"
+            ],
+            [
+              "Hoje o dia está lindo",
+              "Vamos brincar lá fora"
+            ],
+            [
+              "O Pedro comprou pão",
+              "Ele comeu de manhã"
+            ],
+            [
+              "A bola rolou na rua",
+              "O João foi buscar"
+            ],
+            [
+              "O sol apareceu cedo",
+              "Os pássaros cantaram"
+            ]
+          ]
+        },
+        {
+          "nome": "Médio",
+          "cor": "nm",
+          "grau": "🟡",
+          "itens": [
+            [
+              "O sol brilhou forte hoje",
+              "As crianças foram à praia",
+              "Todos voltaram felizes"
+            ],
+            [
+              "Minha mãe fez um bolo",
+              "O cheiro tomou a casa",
+              "Eu comi dois pedaços"
+            ],
+            [
+              "O cachorro latiu alto",
+              "O gato ficou assustado",
+              "Ele correu para o quintal"
+            ],
+            [
+              "A professora chegou cedo",
+              "Ela escreveu no quadro",
+              "Os alunos copiaram tudo"
+            ],
+            [
+              "Choveu a tarde inteira",
+              "As ruas ficaram molhadas",
+              "Depois surgiu um arco-íris"
+            ],
+            [
+              "O time treinou bastante",
+              "O jogo começou animado",
+              "A vitória foi merecida"
+            ]
+          ]
+        },
+        {
+          "nome": "Difícil",
+          "cor": "nd",
+          "grau": "🔴",
+          "itens": [
+            [
+              "Quando acordei, o dia estava lindo",
+              "Tomei café e escovei os dentes",
+              "Peguei a mochila e fui à escola",
+              "Lá, encontrei meus amigos"
+            ],
+            [
+              "O parque estava cheio de gente",
+              "Algumas crianças andavam de bicicleta",
+              "Outras brincavam na areia",
+              "Foi uma tarde divertida"
+            ],
+            [
+              "Na floresta vivia uma coruja",
+              "Ela era sábia e gentil",
+              "Os bichos pediam conselhos",
+              "A coruja sempre ajudava"
+            ],
+            [
+              "Comprei frutas na feira",
+              "Levei maçãs, peras e bananas",
+              "Em casa, lavei tudo",
+              "Guardei as frutas na geladeira"
+            ],
+            [
+              "O time entrou em campo",
+              "A torcida gritava sem parar",
+              "No fim, o gol saiu",
+              "Foi uma festa enorme"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "🎧 Ditado do Pingo",
+      "tipo": "voz",
+      "classe": "m5",
+      "desc": "Ouça e escreva a palavra certinha.",
+      "niveis": [
+        {
+          "nome": "Fácil",
+          "cor": "nf",
+          "grau": "🟢",
+          "itens": [
+            {
+              "palavra": "pão",
+              "frase": "Eu comi um pão de manhã."
+            },
+            {
+              "palavra": "mão",
+              "frase": "Levante a mão direita."
+            },
+            {
+              "palavra": "irmã",
+              "frase": "Minha irmã é muito legal."
+            },
+            {
+              "palavra": "maçã",
+              "frase": "A maçã está bem madura."
+            },
+            {
+              "palavra": "campo",
+              "frase": "O cavalo corre no campo."
+            },
+            {
+              "palavra": "samba",
+              "frase": "Eles dançaram um samba."
+            },
+            {
+              "palavra": "bomba",
+              "frase": "A bomba fez muito barulho."
+            },
+            {
+              "palavra": "dente",
+              "frase": "O dente do bebê nasceu."
+            },
+            {
+              "palavra": "ponte",
+              "frase": "O carro passou na ponte."
+            },
+            {
+              "palavra": "vento",
+              "frase": "O vento balançou as folhas."
+            }
+          ]
+        },
+        {
+          "nome": "Médio",
+          "cor": "nm",
+          "grau": "🟡",
+          "itens": [
+            {
+              "palavra": "coração",
+              "frase": "O coração bate forte."
+            },
+            {
+              "palavra": "caminhão",
+              "frase": "O caminhão é bem grande."
+            },
+            {
+              "palavra": "também",
+              "frase": "Eu também quero ir."
+            },
+            {
+              "palavra": "jardim",
+              "frase": "As flores estão no jardim."
+            },
+            {
+              "palavra": "homem",
+              "frase": "O homem é muito gentil."
+            },
+            {
+              "palavra": "tempo",
+              "frase": "O tempo está nublado."
+            },
+            {
+              "palavra": "mundo",
+              "frase": "O mundo é enorme."
+            },
+            {
+              "palavra": "planta",
+              "frase": "A planta cresceu bastante."
+            },
+            {
+              "palavra": "manhã",
+              "frase": "De manhã eu tomo café."
+            },
+            {
+              "palavra": "balão",
+              "frase": "O balão subiu no céu."
+            }
+          ]
+        },
+        {
+          "nome": "Difícil",
+          "cor": "nd",
+          "grau": "🔴",
+          "itens": [
+            {
+              "palavra": "opinião",
+              "frase": "Cada um tem a sua opinião."
+            },
+            {
+              "palavra": "educação",
+              "frase": "A educação é importante."
+            },
+            {
+              "palavra": "refeição",
+              "frase": "O almoço é uma refeição."
+            },
+            {
+              "palavra": "álbum",
+              "frase": "Colei figurinhas no álbum."
+            },
+            {
+              "palavra": "nuvem",
+              "frase": "A nuvem é branca e fofa."
+            },
+            {
+              "palavra": "bombom",
+              "frase": "Ganhei um bombom doce."
+            },
+            {
+              "palavra": "leões",
+              "frase": "Os leões rugiram bem alto."
+            },
+            {
+              "palavra": "pães",
+              "frase": "Comprei dois pães na padaria."
+            },
+            {
+              "palavra": "importante",
+              "frase": "Estudar é muito importante."
+            },
+            {
+              "palavra": "amanhã",
+              "frase": "Amanhã eu vou à escola."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titulo": "✂️ Separar Sílabas",
+      "tipo": "silaba",
+      "classe": "m6",
+      "desc": "Toque entre as letras e separe as sílabas.",
+      "niveis": [
+        {
+          "nome": "Fácil",
+          "cor": "nf",
+          "grau": "🟢",
+          "itens": [
+            {
+              "silabas": [
+                "lo",
+                "bo"
+              ]
+            },
+            {
+              "silabas": [
+                "ca",
+                "pa"
+              ]
+            },
+            {
+              "silabas": [
+                "bo",
+                "bo"
+              ]
+            },
+            {
+              "silabas": [
+                "vo",
+                "vó"
+              ]
+            }
+          ]
+        },
+        {
+          "nome": "Médio",
+          "cor": "nm",
+          "grau": "🟡",
+          "itens": [
+            {
+              "silabas": [
+                "do",
+                "ces"
+              ]
+            },
+            {
+              "silabas": [
+                "ca",
+                "puz"
+              ]
+            },
+            {
+              "silabas": [
+                "bos",
+                "que"
+              ]
+            },
+            {
+              "silabas": [
+                "ca",
+                "mi",
+                "nho"
+              ]
+            }
+          ]
+        },
+        {
+          "nome": "Difícil",
+          "cor": "nd",
+          "grau": "🔴",
+          "itens": [
+            {
+              "silabas": [
+                "es",
+                "tra",
+                "da"
+              ]
+            },
+            {
+              "silabas": [
+                "de",
+                "ser",
+                "to"
+              ]
+            },
+            {
+              "silabas": [
+                "con",
+                "ten",
+                "te"
+              ]
+            },
+            {
+              "silabas": [
+                "mar",
+                "ga",
+                "ri",
+                "das"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "chefao": [
+    {
+      "tipo": "grafia",
+      "emoji": "🦁🦁",
+      "resp": "leões",
+      "ops": [
+        "leoes",
+        "leões",
+        "leãos",
+        "liões"
+      ]
+    },
+    {
+      "tipo": "mn",
+      "emoji": "🛒",
+      "exibe": "co_pra",
+      "resp": "M",
+      "full": "compra"
+    },
+    {
+      "tipo": "aoam",
+      "emoji": "⏩",
+      "frase": "Amanhã eles ___ de avião.",
+      "a": "viajaram",
+      "b": "viajarão",
+      "correta": "viajarão",
+      "tip": "Amanhã = futuro → ÃO."
+    },
+    {
+      "tipo": "grafia",
+      "emoji": "💭",
+      "resp": "opinião",
+      "ops": [
+        "opiniao",
+        "opinião",
+        "opnião",
+        "opineão"
+      ]
+    },
+    {
+      "tipo": "ponto",
+      "frases": [
+        "A coruja Pingo é sábia",
+        "Ela ajuda quem estuda",
+        "Agora é a sua vez de brilhar"
+      ]
+    },
+    {
+      "tipo": "mn",
+      "emoji": "🧠",
+      "exibe": "i_teligente",
+      "resp": "N",
+      "full": "inteligente"
+    },
+    {
+      "tipo": "aoam",
+      "emoji": "⏪",
+      "frase": "Ontem as crianças ___ para a prova.",
+      "a": "estudaram",
+      "b": "estudarão",
+      "correta": "estudaram",
+      "tip": "Ontem = passado → AM."
+    },
+    {
+      "tipo": "grafia",
+      "emoji": "🍞🍞",
+      "resp": "pães",
+      "ops": [
+        "paes",
+        "pães",
+        "pãens",
+        "pãis"
+      ]
+    },
+    {
+      "tipo": "mn",
+      "emoji": "🎁",
+      "exibe": "e_brulho",
+      "resp": "M",
+      "full": "embrulho"
+    },
+    {
+      "tipo": "grafia",
+      "emoji": "🦁",
+      "resp": "leão",
+      "ops": [
+        "leao",
+        "leão",
+        "lião"
+      ]
+    },
+    {
+      "tipo": "grafia",
+      "emoji": "🌳",
+      "resp": "jardim",
+      "ops": [
+        "jardin",
+        "jardim",
+        "jardím"
+      ]
+    },
+    {
+      "tipo": "ponto",
+      "frases": [
+        "O dragão guardava um tesouro",
+        "Um herói corajoso apareceu",
+        "A batalha foi emocionante",
+        "Venceu quem mais estudou"
+      ]
+    },
+    {
+      "tipo": "aoam",
+      "emoji": "🎤",
+      "frase": "Na semana passada as meninas ___.",
+      "a": "cantaram",
+      "b": "cantarão",
+      "correta": "cantaram",
+      "tip": "\"passada\" = passado → AM."
+    },
+    {
+      "tipo": "grafia",
+      "emoji": "🤾",
+      "resp": "também",
+      "ops": [
+        "tanbém",
+        "também",
+        "tambén"
+      ]
+    },
+    {
+      "tipo": "voz",
+      "palavra": "coração",
+      "frase": "O coração bate forte."
+    },
+    {
+      "tipo": "silaba",
+      "silabas": [
+        "ca",
+        "mi",
+        "nho"
+      ]
+    }
+  ]
+}
